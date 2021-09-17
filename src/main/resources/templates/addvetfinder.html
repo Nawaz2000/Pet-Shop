@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- icons -->
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <!-- Popper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!--<?php 
+    session_start(); 
+    if(isset($_SESSION['admin'])==''){
+        echo '<script type="text/javascript">
+                location.replace("index.php");
+            </script>';
+    }
+    ?>-->
+    <title>Vet Finders </title>
+</head>
+
+
+
+
+<body>
+
+    <!-- nav bar + logo -->
+    <!--<?php 
+
+    if(isset($_GET['logout'])){
+        unset($_SESSION['admin']);
+        echo '<script type="text/javascript">
+            location.replace("index.php");
+        </script>';
+    }
+
+    ?>-->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Admin Panel</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse " id="navbarNavDropdown">
+            <ul class="navbar-nav">
+            <li class="nav-item ">
+                <a class="nav-link" href="admin.php">Home </a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="addvetfinder.php">Add Vet Finder <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="enquire.php">Enquires</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="?logout=true">Logout</a>
+            </li>
+            
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="row">
+
+            <div class="col mt-3 justify-content-right">
+
+                <!--<?php
+                    require_once 'db.php';
+                    $conn = new mysqli($hn,$un,$pw,$db); 
+                    if ($conn ->connect_error) die ($conn->connect_error);
+                    $update = '';
+                    $prog = '';
+                    $updateinfo = '';
+                    if(isset($_POST['submit'])){
+                        $target_dir = "images/uploads/";
+                        $target_file = $target_dir . basename($_FILES["pic"]["name"]);
+
+                        $name = $_POST['name'];
+                        $phone = $_POST['phone'];
+                        $email = $_POST['email'];
+                        $note = $_POST['note'];
+                        $address = $_POST['address'];
+
+                        $upload = move_uploaded_file($_FILES["pic"]["tmp_name"], $target_file);
+                        
+                        $file = "images/uploads/".basename($_FILES["pic"]["name"]);
+                        $q = "INSERT INTO vetfinder (name,phone,email,image,note,address) VALUES ('$name','$phone','$email','$file','$note','$address')";
+                        $rs = $conn->query($q); 
+                        if (!$rs) die ($conn->error);
+
+                        echo '<script type="text/javascript">
+                            location.replace("addvetfinder.php");
+                        </script>';
+
+
+                    }
+
+                    if(isset($_GET['remove'])){
+                        $vetid = $_GET['remove'];
+                        
+                        $remove_r = $conn->query("DELETE from vetfinder WHERE id=$vetid");
+                        if(!$remove_r) die($conn->error); 
+                        echo '<script type="text/javascript">
+                            location.replace("addvetfinder.php");
+                        </script>';
+                    }
+
+                    if(isset($_GET['update'])){
+
+                        $vetid = $_GET['update'];
+                        $query = $conn->query("SELECT * FROM vetfinder WHERE id='$vetid'");
+                        $vet_d = $query->fetch_array();
+
+                        $update = true;
+                        $updateinfo = $vet_d;
+                        
+
+                    }
+
+                    if(isset($_POST['update'])){
+                        $vetid = $_POST['vetid'];
+
+                        $query = $conn->query("SELECT * FROM vetfinder WHERE id='$vetid'");
+                        $vet_d = $query->fetch_array();
+                        $file = '';
+
+                        if($_FILES['pic']['name']){
+                            $target_dir = "images/uploads/";
+                            $target_file = $target_dir . basename($_FILES["pic"]["name"]);
+                            $upload = move_uploaded_file($_FILES["pic"]["tmp_name"], $target_file);
+                            $file =  "images/uploads/".basename($_FILES["pic"]["name"]);
+
+                        }else{
+                            $file = $vet_d['image'];
+                        }
+
+                        $name = $_POST['name'];
+                        $phone = $_POST['phone'];
+                        $email = $_POST['email'];
+                        $note = $_POST['note'];
+                        $address = $_POST['address'];
+                        $q = "UPDATE  vetfinder SET name='$name',phone='$phone',email='$email',note='$note',address='$address',image='$file' WHERE id='$vetid' ";
+                        $r = $conn->query($q); 
+                        if (!$r) die ($conn->error);
+                    }
+
+                    
+
+                ?>-->
+
+                <form action="addvetfinder.php" method="post" enctype="multipart/form-data">
+                    <div class="form-row">
+                        <input type='hidden' name="vetid" value="<?php if($updateinfo){echo $updateinfo['id'];} ?>">
+                        <div class="col-md-4 mb-3">
+                            <label for="validationCustom01">Name </label>
+                            <input type="text" value="<?php if($updateinfo){echo $updateinfo['name'];} ?>" name='name' class="form-control" id="validationCustom01" placeholder="Name"
+                                 required>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="validationCustom02">Phone</label>
+                            <input type="text" name='phone' value="<?php if($updateinfo){echo $updateinfo['phone'];} ?>" class="form-control" id="validationCustom02" placeholder="phone"
+                                required>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="validationCustom03">Image</label>
+                            <input type="file" required name='pic' class="form-control" id="validationCustom03" placeholder="Cover image" >
+                        </div>
+                        
+                        
+                    </div>
+                    <div class="form-row">
+                      
+                        <div class="col-md-6 mb-3">
+                            <label for="validationCustom02">Email</label>
+                            <input type="email" name='email' value="<?php if($updateinfo){echo $updateinfo['email'];} ?>"  class="form-control" id="validationCustom02" placeholder="Email"
+                                required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="validationCustom02">Address</label>
+                            <input type="text" name='address' value="<?php if($updateinfo){echo $updateinfo['address'];} ?>"  class="form-control" id="validationCustom02" placeholder="Address"
+                                 required>
+                        </div>                        
+                    </div>
+                    
+                    <div class='form-row'>
+                        
+                        <div class="col-md-12 mb-3">
+                            <label for="validationCustom02">Note</label>
+                            <textarea class="form-control" required  name='note' id="exampleFormControlTextarea1" rows="3"><?php if($updateinfo){echo $updateinfo['note'];} ?></textarea>
+                        </div>
+
+
+                    </div>
+        
+                    <?php if ($update == true):?>
+                    <button type="submit" name="update" class="btn btn-primary">Update</button>
+                    <?php else: ?>
+                    <button type="submit" name="submit" class="btn btn-primary">Submit</button>
+                    <?php endif; ?>
+                </form>
+            </div>
+
+
+            <!--<?php 
+                require_once 'db.php';
+                $conn = new mysqli($hn,$un,$pw,$db); 
+                if ($conn ->connect_error) die ($conn->connect_error);
+
+                $q = 'select * from vetfinder';
+                $result = $conn -> query ($q);
+
+                if (!$result) die ("No record found!!");
+               
+                ?>-->
+            <div class="col-xl-12 mt-5 justify-content-right">
+                <table class="table">
+                    <thead class="thead-light">
+                        <tr>
+                            <th scope="col"></th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Phone</th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!--<?php 
+
+                            if($result){
+                                while($data=$result->fetch_array()){
+                                    echo '<tr>
+                                        <td><img src="'.$data['image'].'" width="100px" height="100px" ></td>
+                                        <td>'.$data['name'].'</td>
+                                        <td>'.$data['email'].'</td>
+                                        <td>'.$data['phone'].'</td>
+                                        <td><a href="?remove='.$data['id'].'"><button type="button" class="btn btn-danger">Remove</button></a></td>
+                                        <td><a href="?update='.$data['id'].'"><button type="button" class="btn btn-info">Update</button></a></td>
+                                    
+                                    </tr>';
+                                }
+                            }
+
+                        ?>-->
+                        
+
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+
+</body>
+
+</html>
