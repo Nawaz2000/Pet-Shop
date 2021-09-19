@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -55,14 +55,14 @@
                     <div class="col-lg-8 d-none d-lg-block">
                         <nav class="mainmenu__nav">
                             <ul class="meninmenu d-flex justify-content-start">
-                                <li class="drop with--one--item"><a href="index.php">Home</a></li>
-                                <li class="drop with--one--item"><a href="store.php?query=All">All</a></li>
-                                <li class="drop with--one--item"><a href="store.php?query=cat">Cats</a></li>
-                                <li class="drop with--one--item"><a href="store.php?query=dog">Dogs</a></li>
-                                <li class="drop with--one--item"><a href="store.php?query=bird">Birds</a></li>
-                                <li class="drop with--one--item"><a href="store.php?query=reptile">Reptiles</a></li>
-                                <li class="drop with--one--item"><a href="vetfinder.php">Vet Finder</a></li>
-                                <li><a href="contactus.php">Contact</a></li>
+                                <li class="drop with--one--item"><a th:href="@{/index}">Home</a></li>
+                                <li class="drop with--one--item"><a th:href="@{/store(param='All')}">All</a></li>
+                                <li class="drop with--one--item"><a th:href="@{/store(param='cat')}">Cats</a></li>
+                                <li class="drop with--one--item"><a th:href="@{/store(param='dog')}">Dogs</a></li>
+                                <li class="drop with--one--item"><a th:href="@{/store(param='bird')}">Birds</a></li>
+                                <li class="drop with--one--item"><a th:href="@{/store(param='reptile')}">Reptiles</a></li>
+                                <li class="drop with--one--item"><a th:href="@{/vetfinder}">Vet Finder</a></li>
+                                <li><a th:href="@{/contactus}">Contact</a></li>
                             </ul>
                         </nav>
                     </div>
@@ -73,6 +73,25 @@
                             <li class="setting__bar__icon"><a class="setting__active" href="#"></a>
                                 <div class="searchbar__content setting__block">
                                 <div class="content-inner">
+								
+								
+										<div class="switcher-currency">
+                                            <strong class="label switcher-label">
+                                                <span>Register</span>
+                                            </strong>
+                                            <div class="switcher-options">
+                                                <div class="switcher-currency-trigger">
+                                                    <div class="setting__menu">
+                                                        <span><a th:href="@{/login}">Login</a></span>
+                                                    </div>
+                                                    <div class="setting__menu">
+                                                        <span><a th:href="@{/register}">Register</a></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+								
+								
+								
                                         <!--<?php 
                                         
                                         if(isset($_SESSION['user'])){
@@ -128,7 +147,7 @@
                                         </div>
         
                                         <div class="mini_action checkout">
-                                            <a class="checkout__btn" href="cart.php">Go to Cart</a>
+                                            <a class="checkout__btn" th:href="@{/cart}">Go to Cart</a>
                                         </div>
                                         <div class="single__items">
                                             <div class="miniproduct">
@@ -182,14 +201,15 @@
                     <div class="col-lg-12 d-none">
                         <nav class="mobilemenu__nav">
                             <ul class="meninmenu">
-                                <li><a href="index.php">Home</a></li>
-                                <li><a href="store.php?query=All">All</a></li>
-                                <li><a href="store.php?query=cat">Cats</a></li>
-                                <li><a href="store.php?query=dog">Dogs</a></li>
-                                <li><a href="store.php?query=bird">Birds</a></li>
-                                <li ><a href="store.php?query=reptile">Reptiles</a></li>
-                                <li><a href="vetfinder.php">Vet Finder</a></li>
-                                <li><a href="contactus.php">Contact</a></li>
+                                <li><a th:href="@{/index}">Home</a></li>
+                                <li><a th:href="@{/store(query='All')}">All</a></li>
+                                <li><a th:href="@{/store(query='cat')}">Cats</a></li>
+                                <li><a th:href="@{/store(query='dog')}">Dogs</a></li>
+                                <li><a th:href="@{/store(query='bird')}">Birds</a></li>
+                                <li><a th:href="@{/store(query='reptile')}">Reptiles</a></li>
+                                
+                                <li><a th:href="@{/vetfinder}">Vet Finder</a></li>
+                                <li><a th:href="@{/contactus}">Contact</a></li>
                             </ul>
                         </nav>
                     </div>
@@ -247,9 +267,9 @@
                                         alt="product image"></a>
                             </div>
                             <div class="product__content content--center">
-                                <h3><a href="store.php?query=reptile">Reptiles</a></h3>
+                                <h3><a th:href="@{/store(param='reptile')}">Reptiles</a></h3>
                                 <div class="mini_action checkout" style="margin-top: 1em;">
-                                    <a class="cart__btn__list" href="store.php?query=reptile">Shop Now</a>
+                                    <a class="cart__btn__list" th:href="@{/store(param='reptile')}">Shop Now</a>
                                 </div>
                             </div>
                         </div>
@@ -262,9 +282,9 @@
                                         alt="product image"></a>
                             </div>
                             <div class="product__content content--center">
-                                <h3><a href="store.php?query=cat">Cats</a></h3>
+                                <h3><a th:href="@{/store(param='cat')}">Cats</a></h3>
                                 <div class="mini_action checkout" style="margin-top: 1em;">
-                                    <a class="cart__btn__list" href="store.php?query=cat">Shop Now</a>
+                                    <a class="cart__btn__list" th:href="@{/store(param='cat')}">Shop Now</a>
                                 </div>
                             </div>
                         </div>
@@ -277,9 +297,9 @@
                                         alt="product image"></a>
                             </div>
                             <div class="product__content content--center">
-                                <h3><a href="store.php?query=dog">Dogs</a></h3>
+                                <h3><a th:href="@{/store(param='dog')}">Dogs</a></h3>
                                 <div class="mini_action checkout" style="margin-top: 1em;">
-                                    <a class="cart__btn__list" href="store.php?query=dog">Shop Now</a>
+                                    <a class="cart__btn__list" th:href="@{/store(param='dog')}">Shop Now</a>
                                 </div>
                             </div>
                         </div>
@@ -292,9 +312,9 @@
                                         alt="product image"></a>
                             </div>
                             <div class="product__content content--center">
-                                <h3><a href="store.php?query=bird">Birds</a></h3>
+                                <h3><a th:href="@{/store(param='bird')}">Birds</a></h3>
                                 <div class="mini_action checkout" style="margin-top: 1em;">
-                                    <a class="cart__btn__list" href="store.php?query=bird">Shop Now</a>
+                                    <a class="cart__btn__list" th:href="@{/store(param='bird')}">Shop Now</a>
                                 </div>
                             </div>
                         </div>
@@ -438,15 +458,15 @@
                                         <li><a href="#"><i class="bi bi-youtube"></i></a></li>
                                     </ul>
                                     <ul class="mainmenu d-flex justify-content-center">
-                                        <li><a href="index.php">Home</a></li>
-                                        <li><a href="store.php?query=All">All</a></li>
-                                        <li><a href="store.php?query=cat">Cats</a></li>
-                                        <li><a href="store.php?query=dog">Dogs</a></li>
-                                        <li><a href="store.php?query=bird">Birds</a></li>
-                                        <li ><a href="store.php?query=reptile">Reptiles</a></li>
+                                        <li><a th:href="@{/index}">Home</a></li>
+                                        <li><a th:href="@{/store(param='ALL')}">All</a></li>
+                                        <li><a th:href="@{/store(param='cat')}">Cats</a></li>
+                                        <li><a th:href="@{/store(param='dog')}">Dogs</a></li>
+                                        <li><a th:href="@{/store(param='bird')}">Birds</a></li>
+                                        <li><a th:href="@{/store(param='reptile')}">Reptiles</a></li>
 
-                                        <li><a href="vetfinder.php">Vet Finder</a></li>
-                                        <li><a href="contactus.php">Contact</a></li>
+                                        <li><a th:href="@{/vetfinder}">Vet Finder</a></li>
+                                        <li><a th:href="@{/contactus}">Contact</a></li>
                                     </ul>
                                 </div>
                             </div>
