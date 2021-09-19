@@ -75,6 +75,31 @@
                                 <div class="content-inner">
 								
 								
+								
+									<div sec:authorize="isAuthenticated()">
+										<div class="switcher-currency">
+                                            <strong class="label switcher-label">
+                                                <span>My Account</span>
+                                            </strong>
+                                            <div class="switcher-options">
+                                                <div class="switcher-currency-trigger">
+                                                    <div class="setting__menu">
+                                                        <span><a href="account.php">Profile</a></span>
+                                                    </div>
+                                                    <div class="setting__menu">
+                                                        <span><a href="orders.php">Orders</a></span>
+                                                    </div>
+                                                    <div class="setting__menu">
+                                                        <span><a href="?logout=user">Logout</a></span>
+                                                    </div>
+                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+									</div>
+								
+								
+									<div sec:authorize="isAnonymous()">
 										<div class="switcher-currency">
                                             <strong class="label switcher-label">
                                                 <span>Register</span>
@@ -89,6 +114,7 @@
                                                     </div>
                                                 </div>
                                             </div>
+									</div>
 								
 								
 								
