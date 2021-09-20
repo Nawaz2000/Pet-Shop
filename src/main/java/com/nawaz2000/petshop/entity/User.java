@@ -22,6 +22,9 @@ public class User {
 	@Column(name = "lname")
 	private String lName;
 	
+	@Column(name = "username")
+	private String username;
+	
 	@Column(name = "email")
 	private String email;
 	
@@ -44,11 +47,12 @@ public class User {
 		
 	}
 
-	public User(String fName, String lName, String email, String gender, String phone, String dob, String password,
-			String role) {
+	public User(String fName, String lName, String username, String email, String gender, String phone, String dob,
+			String password, String role) {
 		super();
 		this.fName = fName;
 		this.lName = lName;
+		this.username = username;
 		this.email = email;
 		this.gender = gender;
 		this.phone = phone;
@@ -79,6 +83,14 @@ public class User {
 
 	public void setlName(String lName) {
 		this.lName = lName;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	public String getEmail() {
@@ -128,6 +140,8 @@ public class User {
 	public void setRole(String role) {
 		this.role = role;
 	}
+
+	
 	
 	
 	

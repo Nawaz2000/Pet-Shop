@@ -12,7 +12,7 @@ import com.nawaz2000.petshop.entity.User;
 
 public class MyUserDetails implements org.springframework.security.core.userdetails.UserDetails {
 
-	private String email;
+	private String username;
 	private String password;
 	private List<GrantedAuthority> authorities;
 	
@@ -21,7 +21,7 @@ public class MyUserDetails implements org.springframework.security.core.userdeta
 	}
 	
 	public MyUserDetails(User user) {
-		this.email = user.getEmail();
+		this.username = user.getUsername();
 		this.password = user.getPassword();
 		this.authorities = Arrays.stream(user.getRole().split(","))
 							.map(SimpleGrantedAuthority :: new)
@@ -44,7 +44,7 @@ public class MyUserDetails implements org.springframework.security.core.userdeta
 	@Override
 	public String getUsername() {
 		// TODO Auto-generated method stub
-		return email;
+		return this.username;
 	}
 
 	@Override

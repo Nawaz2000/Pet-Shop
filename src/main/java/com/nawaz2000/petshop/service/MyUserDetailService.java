@@ -24,8 +24,8 @@ public class MyUserDetailService implements UserDetailsService {
 		
 		System.out.println("------------>Username: " + username);
 		
-		Optional<User> user = userRepo.findByEmail(username);
-		System.out.println("-------------> Email: " + user.get().getEmail() + " Pass: " + user.get().getPassword());
+		Optional<User> user = userRepo.findByUsername(username);
+		System.out.println("-------------> Username: " + user.get().getUsername() + " Pass: " + user.get().getPassword());
 		
 		user.orElseThrow(() -> new UsernameNotFoundException("Not found: " + username));
 		

@@ -281,7 +281,7 @@
 						<div class="my__account__wrapper">
 							<h3 class="account__title">Login</h3>
 							
-							<form th:action="@{/authenticate}" method="POST">
+							<form th:action="@{/login}" method="POST">
 								<div class="account__form">
                                     <div class="input_box">
                                         <label>Role<span>*</span></label>
@@ -293,8 +293,8 @@
                                         </select>
                                     </div>
 									<div class="input__box">
-										<label>Email<span>*</span></label>
-										<input type="email" name='email'>
+										<label>Username<span>*</span></label>
+										<input type="username" name='username'>
 									</div>
 									<div class="input__box">
 										<label>Password<span>*</span></label>

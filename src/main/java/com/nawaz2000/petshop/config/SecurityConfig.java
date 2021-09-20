@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.User.UserBuilder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.nawaz2000.petshop.service.MyUserDetailService;
 
@@ -28,10 +29,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//		auth.inMemoryAuthentication()
-//			.withUser(user.username("Nawaz2000").password("123").roles("ADMIN"))
-//			.withUser(user.username("Thorkell").password("123").roles("USER"));
-		
 		auth.userDetailsService(userDetailsService);
 		
 		
@@ -50,14 +47,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //			.antMatchers("/resources/**")
 //			.permitAll()
 			.and()
-				.formLogin();
-//					.loginPage("/login");
+				.formLogin()
+					.loginPage("/login")
 //					.loginProcessingUrl("/authenticate");
-//					.permitAll()
-//			.and()
-//				.logout()
-//					.logoutUrl("/logout")
-//					.permitAll();
+					.permitAll()
+			.and()
+				.logout()
+				.logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login");
 	}
 	
 	@Bean
