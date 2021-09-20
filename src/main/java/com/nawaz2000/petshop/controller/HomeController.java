@@ -28,4 +28,19 @@ public class HomeController {
 		return "store";
 	}
 	
+	@GetMapping("/cart")
+	public String getCart() {
+		return "cart";
+	}
+	
+	@GetMapping("/account")
+	public String getAccount() {
+		return "account";
+	}
+	
+	@GetMapping("/orders")
+	public String getOrders() {
+		return "orders";
+	}
+	
 }

@@ -89,13 +89,13 @@
                                             <div class="switcher-options">
                                                 <div class="switcher-currency-trigger">
                                                     <div class="setting__menu">
-                                                        <span><a href="account.php">Profile</a></span>
+                                                        <span><a th:href="@{/account}">Profile</a></span>
                                                     </div>
                                                     <div class="setting__menu">
-                                                        <span><a href="orders.php">Orders</a></span>
+                                                        <span><a th:href="@{/orders}">Orders</a></span>
                                                     </div>
                                                     <div class="setting__menu">
-                                                        <span><a href="?logout=user">Logout</a></span>
+                                                        <span><a th:href="@{/logout}">Logout</a></span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -112,7 +112,7 @@
                                         </div>
         
                                         <div class="mini_action checkout">
-                                            <a class="checkout__btn" href="cart.php">Go to Cart</a>
+                                            <a class="checkout__btn" th:href="@{/cart}">Go to Cart</a>
                                         </div>
                                         <div class="single__items">
                                             <div class="miniproduct">

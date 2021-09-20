@@ -79,48 +79,50 @@
                             <li class="setting__bar__icon"><a class="setting__active" href="#"></a>
                                 <div class="searchbar__content setting__block">
                                 <div class="content-inner">
-                                        <!--<?php 
+                                        <div class="content-inner">
                                         
-                                        if(isset($_SESSION['user'])){
-                                            echo '<div class="switcher-currency">
+                                     <div sec:authorize="isAuthenticated()">
+										<div class="switcher-currency">
                                             <strong class="label switcher-label">
                                                 <span>My Account</span>
                                             </strong>
                                             <div class="switcher-options">
                                                 <div class="switcher-currency-trigger">
                                                     <div class="setting__menu">
-                                                        <span><a href="account.php">Profile</a></span>
+                                                        <span><a th:href="@{/account}">Profile</a></span>
                                                     </div>
                                                     <div class="setting__menu">
-                                                        <span><a href="orders.php">Orders</a></span>
+                                                        <span><a th:href="@{/orders}">Orders</a></span>
                                                     </div>
                                                     <div class="setting__menu">
-                                                        <span><a href="?logout=user">Logout</a></span>
+                                                        <span><a th:href="@{/logout}">Logout</a></span>
                                                     </div>
                                                     
                                                 </div>
                                             </div>
-                                        </div>';
-                                        }else{
-                                            echo '<div class="switcher-currency">
+                                        </div>
+									</div>
+								
+								
+									<div sec:authorize="isAnonymous()">
+										<div class="switcher-currency">
                                             <strong class="label switcher-label">
                                                 <span>Register</span>
                                             </strong>
                                             <div class="switcher-options">
                                                 <div class="switcher-currency-trigger">
                                                     <div class="setting__menu">
-                                                        <span><a href="login.php">Login</a></span>
+                                                        <span><a th:href="@{/login}">Login</a></span>
                                                     </div>
                                                     <div class="setting__menu">
-                                                        <span><a href="register.php">Register</a></span>
+                                                        <span><a th:href="@{/register}">Register</a></span>
                                                     </div>
                                                 </div>
-                                            </div>';
-                                        }
-
-
+                                            </div>
+									   </div>                                       
+                                    </div>
                                         
-                                        ?>-->
+                                 </div>
                                         
                                     </div>
                                 </div>
@@ -135,7 +137,7 @@
                                         </div>
         
                                         <div class="mini_action checkout">
-                                            <a class="checkout__btn" href="cart.php">Go to Cart</a>
+                                            <a class="checkout__btn" th:href="@{/cart}">Go to Cart</a>
                                         </div>
                                         <div class="single__items">
                                             <div class="miniproduct">
@@ -287,10 +289,10 @@
                             <aside class="wedget__categories poroduct--cat">
                                 <h3 class="wedget__title">Product Categories</h3>
                                 <ul>
-                                    <li><a href="store.php?param=cat">Cats</a></li>
-                                    <li><a href="store.php?param=dog">Dogs</a></li>
-                                    <li><a href="store.php?param=bird">Birds</a></li>
-                                    <li><a href="store.php?param=reptile">Reptiles</a></li>
+                                    <li><a th:href="@{/store(param='cat')}">Cats</a></li>
+                                    <li><a th:href="@{/store(param='dog')}">Dogs</a></li>
+                                    <li><a th:href="@{/store(param='bird')}">Birds</a></li>
+                                    <li><a th:href="@{/store(param='reptile')}">Reptiles</a></li>
 
                                 </ul>
                             </aside>
@@ -298,7 +300,7 @@
                                 <h3 class="wedget__title">Filter by price</h3>
                                 <div class="content-shopby">
                                     <div class="price_filter s-filter clear">
-                                        <form action="store.php" method="POST">
+                                        <form th:action="@{/store}" method="POST">
                                             <div id="slider-range"></div>
                                             <div class="slider__range--output">
                                                 <div class="price__output--wrap">

@@ -99,48 +99,49 @@
                             <li class="setting__bar__icon"><a class="setting__active" href="#"></a>
                                 <div class="searchbar__content setting__block">
                                 <div class="content-inner">
-                                        <!--<?php 
                                         
-                                        if(isset($_SESSION['user'])){
-                                            echo '<div class="switcher-currency">
+                                        
+                                        <div sec:authorize="isAuthenticated()">
+										<div class="switcher-currency">
                                             <strong class="label switcher-label">
                                                 <span>My Account</span>
                                             </strong>
                                             <div class="switcher-options">
                                                 <div class="switcher-currency-trigger">
                                                     <div class="setting__menu">
-                                                        <span><a href="account.php">Profile</a></span>
+                                                        <span><a th:href="@{/account}">Profile</a></span>
                                                     </div>
                                                     <div class="setting__menu">
-                                                        <span><a href="orders.php">Orders</a></span>
+                                                        <span><a th:href="@{/orders}">Orders</a></span>
                                                     </div>
                                                     <div class="setting__menu">
-                                                        <span><a href="?logout=user">Logout</a></span>
+                                                        <span><a th:href="@{/logout}">Logout</a></span>
                                                     </div>
                                                     
                                                 </div>
                                             </div>
-                                        </div>';
-                                        }else{
-                                            echo '<div class="switcher-currency">
+                                        </div>
+									</div>
+								
+								
+									<div sec:authorize="isAnonymous()">
+										<div class="switcher-currency">
                                             <strong class="label switcher-label">
                                                 <span>Register</span>
                                             </strong>
                                             <div class="switcher-options">
                                                 <div class="switcher-currency-trigger">
                                                     <div class="setting__menu">
-                                                        <span><a href="login.php">Login</a></span>
+                                                        <span><a th:href="@{/login}">Login</a></span>
                                                     </div>
                                                     <div class="setting__menu">
-                                                        <span><a href="register.php">Register</a></span>
+                                                        <span><a th:href="@{/register}">Register</a></span>
                                                     </div>
                                                 </div>
-                                            </div>';
-                                        }
-
-
+                                            </div>
+									   </div>                                       
+                                    </div>
                                         
-                                        ?>-->
                                         
                                     </div>
                                 </div>
