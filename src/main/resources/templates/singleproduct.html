@@ -256,7 +256,7 @@
                                                     <div class="box-tocart d-flex">
                                                         <span>Qty</span>
                                                         <input type="hidden" name="pro" th:value="${singleProduct.id}" >
-                                                        <input type="hidden" name="userId" th:value="${currUser?.id}" >
+                                                        <input type="hidden" name="userId" th:value="${session.user.id}" >
                                                         <input id="qty" class="input-text qty" value="1" name="qty" min="1"  title="Qty" type="number">
                                                         <div sec:authorize="isAuthenticated()">
                                                         <div class="addtocart__actions">

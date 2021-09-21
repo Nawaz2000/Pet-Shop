@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +52,7 @@ public class HomeController {
 	}
 	
 	@GetMapping({"/","/index"})
-	public String getHome(Model model) {
+	public String getHome(Model model, HttpSession session) {
 		
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String currUsername = "";
@@ -69,6 +70,7 @@ public class HomeController {
 			System.out.println("----------------------------> CurrUser id: " + currUser.getId());
 			
 			model.addAttribute("currUser", currUser);
+			// session.setAttribute("user", currUser);
 			
 			List<Cart> currUserCart = cartRepo.findByUserId(currUser.getId());
 			
