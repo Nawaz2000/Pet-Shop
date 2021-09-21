@@ -16,6 +16,8 @@ public class UserCartProducts {
 	
 	private String name;
 	
+	private float totalPrice;
+	
 	public UserCartProducts() {
 		
 	}
@@ -28,6 +30,15 @@ public class UserCartProducts {
 		this.quantity = quantity;
 		this.image = image;
 		this.name = name;
+		this.totalPrice = this.price * this.quantity;
+	}
+
+	public float getTotalPrice() {
+		return totalPrice;
+	}
+
+	public void setTotalPrice(float totalPrice) {
+		this.totalPrice = totalPrice;
 	}
 
 	public int getProductId() {
