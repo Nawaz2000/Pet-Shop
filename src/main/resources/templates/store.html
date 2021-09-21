@@ -1,5 +1,5 @@
 <!doctype html>
-<html class="no-js" lang="zxx" xmlns:th="http://www.thymeleaf.org">
+<html class="no-js" lang="zxx">
 
 <head>
     <meta charset="utf-8">
@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!--<?php session_start(); $msg_add_cart='';?>-->
+    <?php session_start(); $msg_add_cart='';?>
 
     <!-- Favicons -->
     <link rel="shortcut icon" href="#">
@@ -34,16 +34,6 @@
 </head>
 
 <body>
-    <!--<?php 
-
-    if(isset($_GET['logout'])){
-        unset($_SESSION['user']);
-        echo '<script type="text/javascript">
-            location.replace("index.php");
-        </script>';
-    }
-
-    ?>-->
     <div class="wrapper" id="wrapper">
 
         <!-- Header -->
@@ -66,7 +56,6 @@
                                 <li class="drop with--one--item"><a th:href="@{/store(param='dog')}">Dogs</a></li>
                                 <li class="drop with--one--item"><a th:href="@{/store(param='bird')}">Birds</a></li>
                                 <li class="drop with--one--item"><a th:href="@{/store(param='reptile')}">Reptiles</a></li>
-
                                 <li class="drop with--one--item"><a th:href="@{/vetfinder}">Vet Finder</a></li>
                                 <li><a th:href="@{/contactus}">Contact</a></li>
                             </ul>
@@ -79,9 +68,10 @@
                             <li class="setting__bar__icon"><a class="setting__active" href="#"></a>
                                 <div class="searchbar__content setting__block">
                                 <div class="content-inner">
-                                        <div class="content-inner">
-                                        
-                                     <div sec:authorize="isAuthenticated()">
+								
+								
+								
+									<div sec:authorize="isAuthenticated()">
 										<div class="switcher-currency">
                                             <strong class="label switcher-label">
                                                 <span>My Account</span>
@@ -119,12 +109,14 @@
                                                     </div>
                                                 </div>
                                             </div>
-									   </div>                                       
-                                    </div>
+									</div>
+								
+								
+								
                                         
-                                 </div>
                                         
                                     </div>
+                                </div>
                                 </div>
                                 </div>
                             </li>
@@ -178,12 +170,12 @@
                         <nav class="mobilemenu__nav">
                             <ul class="meninmenu">
                                 <li><a th:href="@{/index}">Home</a></li>
-                                <li><a th:href="@{/store(param='ALL')}">All</a></li>
+                                <li><a th:href="@{/store(param='All')}">All</a></li>
                                 <li><a th:href="@{/store(param='cat')}">Cats</a></li>
                                 <li><a th:href="@{/store(param='dog')}">Dogs</a></li>
                                 <li><a th:href="@{/store(param='bird')}">Birds</a></li>
                                 <li><a th:href="@{/store(param='reptile')}">Reptiles</a></li>
-
+                                
                                 <li><a th:href="@{/vetfinder}">Vet Finder</a></li>
                                 <li><a th:href="@{/contactus}">Contact</a></li>
                             </ul>
@@ -199,7 +191,7 @@
         <!-- //Header -->
         <!-- Start Search Popup -->
         <div class="brown--color box-search-content search_active block-bg close__top">
-            <form id="search_mini_form" class="minisearch" action="store.php" method='post'>
+            <form id="search_mini_form" class="minisearch" th:action="@{/store}" method='post'>
                 <div class="field__search">
                     <input type="text" name='value' placeholder="Search entire store here...">
                     <div class="action">
@@ -226,43 +218,138 @@
         </div>
         <!-- End Bradcaump area -->
         <!-- Start Shop Page -->
-        <div class="block-minicart minicart__active">
-                                    <div class="minicart-content-wrapper">
-                                        <div class="micart__close">
-                                            <span>close</span>
-                                        </div>
-        
-                                        <div class="mini_action checkout">
-                                            <a class="checkout__btn" th:href="@{/cart}">Go to Cart</a>
-                                        </div>
-                                        <div class="single__items">
-                                            <div class="miniproduct">                                                                
-                                                                
-                                                 <tr th:each="ucp: ${userCartProducts}">   
-                                                       <div class="item01 d-flex">
-                                                            <div class="thumb">
-                                                                 <a th:href="@{/product-details}"><img
-                                                                     th:src="${ucp.image}"
-                                                                     alt="product images"></a>
-                                                            </div>
-                                                            <div class="content">
-                                                                 <h6><a href="#"><h4 th:text="ucp.name"></h4> </a></h6>
-                                                                    <span class="prize" th:text="${ucp.price}"></span>
-                                                                      <div class="product_prize d-flex justify-content-between">
-                                                                          <span class="qun">Qty: <h4 th:text="${ucp.quantity}"></h4> </span>
-                                                                            
-                                                                      </div>
-                                                            </div>
-                                                      </div>
-                                                </tr>
-                                                                
-                                                                
-                                                
-                                                
+        <!-- <?php 
+
+            $list = [];
+
+
+            if(isset($_POST['filter'])){
+                $amount = $_POST['amount'];
+                $lastq = false;
+                if(isset($_SESSION['lastq'])){
+                    $lastq = $_SESSION['lastq'];
+                }
+                $listamount = preg_split ("/\-/", $amount); 
+                if($lastq !== 'All'){
+                    $list = $conn->query("SELECT * FROM product WHERE (price BETWEEN $listamount[0] AND $listamount[1] AND category='$lastq' )");
+                }else{
+                    $list = $conn->query("SELECT * FROM product WHERE price BETWEEN $listamount[0] AND $listamount[1]");
+                }
+                if (!$list) die ($conn->error);
+            }
+
+            if(isset($_GET['query'])){
+                $q = $_GET['query'];
+                $_SESSION['lastq'] = $q;
+                if($q == 'All'){
+                    $list = $conn->query("SELECT * FROM product ");
+                }else{
+                    $list = $conn->query("SELECT * FROM product WHERE category LIKE '%$q%'");
+                }
+                
+                if (!$list) die ($conn->error);
+            }
+            if(isset($_POST['search'])){
+                $s = $_POST['value'];
+                $list = $conn->query("SELECT * FROM product WHERE (name LIKE '%$s%' or category LIKE '%$s%' )");
+                if (!$list) die ($conn->error);
+
+            }
+        ?> -->
+
+
+
+        <div class="page-shop-sidebar left--sidebar bg--white section-padding--lg">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3 col-12 order-2 order-lg-1 md-mt-40 sm-mt-40">
+                        <div class="shop__sidebar">
+                            <aside class="wedget__categories poroduct--cat">
+                                <h3 class="wedget__title">Product Categories</h3>
+                                <ul>
+                                    <li><a th:href="@{/store(param='cat')}">Cats</a></li>
+                                    <li><a th:href="@{/store(param='dog')}">Dogs</a></li>
+                                    <li><a th:href="@{/store(param='bird')}">Birds</a></li>
+                                    <li><a th:href="@{/store(param='reptile')}">Reptiles</a></li>
+
+                                </ul>
+                            </aside>
+                            <aside class="wedget__categories pro--range">
+                                <h3 class="wedget__title">Filter by price</h3>
+                                <div class="content-shopby">
+                                    <div class="price_filter s-filter clear">
+                                        <form th:action="@{/store}" method="POST">
+                                            <div id="slider-range"></div>
+                                            <div class="slider__range--output">
+                                                <div class="price__output--wrap">
+                                                    <div class="price--output">
+                                                        <span>Price :</span><input type="text" id="amount" name='amount' readonly="">
+                                                    </div>
+                                                    <div class="price--filter">
+                                                        <button class='specialBtnFilter' type='submit' name='filter'>Filter</a>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
+                                        </form>
                                     </div>
                                 </div>
+                            </aside>
+                        </div>
+                    </div>
+                    <div class="col-lg-9 col-12 order-1 order-lg-2">
+
+                        <div class="tab__container">
+                            <div class="shop-grid tab-pane fade show active" id="nav-grid" role="tabpanel">
+                                <div class="row">
+                                    
+                                    <!-- <?php 
+                                    
+                                        if($list){
+                                            while($data=$list->fetch_array()){
+                                                echo ' -->
+                                                
+                                             <tr th:each="product: ${storeProduct}">
+                                                
+                                                <div class="product product__style--3 col-lg-4 col-md-4 col-sm-6 col-12">
+                                                    <div class="product__thumb">
+                                                        <a class="first__img" href="#"><img th:src="${product.image}"
+                                                                alt="product image"></a>
+                                                        
+            
+                                                    </div>
+                                                    <div class="product__content content--center">
+                                                        <h4><a href="#"><span th:text="${product.name}"></span> </a></h4>
+                                                        <ul class="prize d-flex">
+                                                            <li><span th:text="${'$ ' + product.price}"></span></li>
+                                                        </ul>
+                                                        <div class="action">
+                                                            <div class="actions_inner">
+                                                                <ul class="add_to_links">
+                                                                    <li><a class="cart" th:href="@{/singleproduct(id=${product.id})}"><i
+                                                                                class="bi bi-shopping-bag4"></i></a></li>
+            
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </tr>
+                                                <!-- ';
+                                            }
+                                        }
+
+                                    
+                                    
+                                    ?> -->
+                                    
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <!-- End Shop Page -->
         <!-- Footer Area -->
         <footer id="wn__footer" class="footer__area bg__cat--8 brown--color">
@@ -286,14 +373,14 @@
                                     </ul>
                                     <ul class="mainmenu d-flex justify-content-center">
                                         <li><a th:href="@{/index}">Home</a></li>
-                                		<li><a th:href="@{/store(param='ALL')}">All</a></li>
-                                		<li><a th:href="@{/store(param='cat')}">Cats</a></li>
-                                		<li><a th:href="@{/store(param='dog')}">Dogs</a></li>
-                                		<li><a th:href="@{/store(param='bird')}">Birds</a></li>
-                                		<li><a th:href="@{/store(param='reptile')}">Reptiles</a></li>
+                                        <li><a th:href="@{/store(param='ALL')}">All</a></li>
+                                        <li><a th:href="@{/store(param='cat')}">Cats</a></li>
+                                        <li><a th:href="@{/store(param='dog')}">Dogs</a></li>
+                                        <li><a th:href="@{/store(param='bird')}">Birds</a></li>
+                                        <li><a th:href="@{/store(param='reptile')}">Reptiles</a></li>
 
-                                		<li><a th:href="@{/vetfinder}">Vet Finder</a></li>
-                                		<li><a th:href="@{/contactus}">Contact</a></li>
+                                        <li><a th:href="@{/vetfinder}">Vet Finder</a></li>
+                                        <li><a th:href="@{/contactus}">Contact</a></li>
                                     </ul>
                                 </div>
                             </div>

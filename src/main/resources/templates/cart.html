@@ -40,15 +40,7 @@
 <body>
     <div class="wrapper" id="wrapper">
         <!-- Header -->
-        <!--<?php 
-            if(isset($_GET['logout'])){
-                unset($_SESSION['user']);
-                echo '<script type="text/javascript">
-                    location.replace("index.php");
-                </script>';
-            }
         
-        ?>-->
         <header id="wn__header" class="header__area header__absolute sticky__header">
             <div class="container-fluid">
                 <div class="row">
@@ -181,42 +173,6 @@
                 </div>
             </div>
         </div>
-        <!--<?php 
-            require_once 'db.php';
-            $conn = new mysqli($hn,$un,$pw,$db); 
-            if ($conn ->connect_error) die ($conn->connect_error);
-            $cartq = [];
-            if(isset($_GET['productin'])){
-                $productin = $_GET['productin'];
-                $qty = $_GET['qty'];
-                $cartid = $_GET['cartid'];
-
-                $currentq = $conn->query("SELECT * FROM product WHERE id='$productin'");
-                $product_d = $currentq->fetch_array();
-
-                $newprice = $product_d['price'] * $qty;
-                $q = "UPDATE  cart SET quantity='$qty',price='$newprice' WHERE id='$cartid' ";
-
-                $r = $conn->query($q); 
-                if (!$r) die ($conn->error);
-                
-            }
-
-            if(isset($_GET['remove'])){
-                $item = $_GET['remove'];
-                $remove_r = $conn->query("DELETE from cart WHERE id=$item"); 
-                if (!$remove_r) die ($conn->error);
-            }
-
-
-            if(isset($_SESSION['user'])){
-                $user = $_SESSION['user'];
-                $cartq = $conn->query("SELECT * from cart WHERE user_id=$user");
-                if(!$cartq) die($conn->error);
-            }
-
-            
-        ?>-->
 
 
 
@@ -255,12 +211,6 @@
                                                    
                                                 </tr>
                                             
-                                           
-                                                <!-- ';
-                                            }
-                                        }
-                                        
-                                        ?>-->
                                         
                                     </tbody>
                                 </table>
@@ -281,30 +231,6 @@
                         <div class="cartbox__total__area">
                             <div class="cart__total__amount">
                                 <span>Grand Total</span>
-                                <!--<?php
-                                    $total = 0;
-                                    require_once 'db.php';
-                                    $conn = new mysqli($hn,$un,$pw,$db); 
-                                    if ($conn ->connect_error) die ($conn->connect_error);
-                                    if(isset($_SESSION['user'])){
-                                        $user = $_SESSION['user'];
-                                        $check_cart = $conn->query("SELECT * from cart WHERE user_id=$user");
-                                        
-
-                                        if($check_cart){
-                                            while($data=$check_cart->fetch_array()){
-                                                
-                                                $total += $data['price']; 
-                                            }
-                                            
-                                            echo '<span>$'.$total.'</span>';
-
-                                        }
-                                    }
-
-                                    
-                                
-                                ?>-->
                                 <span th:text="${totalPrice}"></span>
                             </div>
                         </div>

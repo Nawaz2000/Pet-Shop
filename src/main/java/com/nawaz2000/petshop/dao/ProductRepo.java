@@ -13,7 +13,6 @@ import com.nawaz2000.petshop.entity.Product;
 @Repository("productRepo")
 public interface ProductRepo extends JpaRepository<Product, Integer> {
 	
-//	@Query("Select c from product c where c.name like ?1%")
-//	public List<Product> findByNameLike(String name);
+	public List<Product> findByCategory(String category);
 	
 }

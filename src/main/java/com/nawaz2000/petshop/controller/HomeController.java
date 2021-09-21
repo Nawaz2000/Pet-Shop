@@ -150,8 +150,19 @@ public class HomeController {
 	}
 	
 	@GetMapping("/store")
-	public String getStore(@RequestParam(name = "param") String storeQuery) {
+	public String getStore(@RequestParam(name = "param") String storeQuery, Model model) {
 		System.out.println("-------------------> " + storeQuery);
+		
+		List<Product> storeProduct = new ArrayList<>();
+		
+		if (storeQuery.equals("All"))
+			storeProduct = productRepo.findAll();
+		else
+			storeProduct = productRepo.findByCategory(storeQuery);
+		
+		model.addAttribute("storeProduct", storeProduct);
+		
+		
 		return "store";
 	}
 	
