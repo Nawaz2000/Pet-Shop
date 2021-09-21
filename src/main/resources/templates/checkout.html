@@ -7,14 +7,7 @@
     <title>Checkout</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!--<?php 
-    session_start(); 
-    if(isset($_SESSION['user'])==''){
-        echo '<script type="text/javascript">
-                location.replace("index.php");
-            </script>';
-    }
-    ?>-->
+    
     <!-- Favicons -->
     <link rel="shortcut icon" href="#">
     <link rel="apple-touch-icon" href="#">
@@ -40,16 +33,7 @@
 <body>
     <div class="wrapper" id="wrapper">
         <!-- Header -->
-        <!--<?php 
-
-        if(isset($_GET['logout'])){
-            unset($_SESSION['user']);
-            echo '<script type="text/javascript">
-                location.replace("index.php");
-            </script>';
-        }
-
-        ?>-->
+        
         <header id="wn__header" class="header__area header__absolute sticky__header">
             <div class="container-fluid">
                 <div class="row">
@@ -282,16 +266,16 @@
 									<div class="margin_between">
 										<div class="input_box space_between">
 											<label>First name <span>*</span></label>
-											<input type="text" required name='firstn' value="<?php echo $userinfo['fname']; ?>">
+											<input type="text" required name='firstn' th:value="${session.user.fName}">
 										</div>
 										<div class="input_box space_between">
 											<label>last name <span>*</span></label>
-											<input type="text" required name='lastn' value="<?php echo $userinfo['lname']; ?>">
+											<input type="text" required name='lastn' th:value="${session.user.lName}">
 										</div>
 									</div>
 									<div class="input_box">
 										<label>Phone number <span>*</span></label>
-										<input type="text" required name='phone' value="<?php echo $userinfo['phone']; ?>">
+										<input type="text" required name='phone' th:value="${session.user.phone}">
 									</div>
 									<div class="input_box">
 										<label>Country<span>*</span></label>
@@ -341,22 +325,14 @@
         						<li>Product</li>
         						<li>Total</li>
         					</ul>
-        					<ul class="order_product">
-							<!--<?php 
-							$total = 0;
-							while($data=$cartlist->fetch_array()){
-								$productid = $data['product_id'];
-								$productq = $conn->query("SELECT * from product WHERE id=$productid");
-								$productdetails = $productq->fetch_array();
-
-								echo '<li>'.$productdetails['name'].'<span>$'.$data['price'].'</span></li>';
-								$total += $data['price'];
-							}
-							
-							?>-->
+        					<div th:each="ucp: ${userCartProducts}">
+        					<ul class="order_product">			
+								<!-- <li th:each="ucp: ${userCartProducts}" th:text="${ucp.name + '$ ' + ucp.price * ucp.quantity}">En las Orillas del Sar</li> -->
+								<li><h6 th:text="${ucp.name}"></h6><span th:text="${'$ ' + ucp.price * ucp.quantity}"></span></li> 							
         					</ul>
-        					<ul class="total__amount">
-        						<li>Order Total <span>$<?php echo $total; ?></span></li>
+        					</div>
+        					<ul class="total__amount"><h3></h3>
+        						<li>Order Total<span> <h6 th:text="${totalPrice}"></h6></span></li>
         					</ul>
         				</div>
                         <div id="accordion" class="checkout_accordion mt--30" role="tablist">

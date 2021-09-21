@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.websocket.Session;
 import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +37,12 @@ import com.nawaz2000.petshop.service.UserCartProducts;
 @Controller
 public class HomeController {
 	
-	private int currUserId;
+	private static int currUserId;
+	private static User pUser;
+	
+	public int getCurrUserId() {
+		return currUserId;
+	}
 	
 	@Autowired
 	@Qualifier("productRepo")
@@ -75,6 +81,7 @@ public class HomeController {
 			model.addAttribute("currUser", currUser);
 			session.setAttribute("user", currUser);
 			currUserId = currUser.getId();
+			pUser = currUser;
 			
 			List<Cart> currUserCart = cartRepo.findByUserId(currUser.getId());
 			
@@ -98,15 +105,11 @@ public class HomeController {
 			
 		}
 		
-		
-		
 		List<Product> popularProduct = productRepo.findAll();
 		for (Product p : popularProduct)
 			System.out.println(p);
 		model.addAttribute("popularProduct", popularProduct);
-		
-		
-		
+	
 		return "index";
 	}
 	
@@ -122,21 +125,30 @@ public class HomeController {
 		
 	}
 	
-	@PostMapping("/addToCart")
-	public String addToCart(@RequestParam(name = "pro") String productId,
-							@RequestParam(name = "userId", required = false) String userId,
-							@RequestParam(name = "qty") String quantity, Model model, HttpServletRequest request) {
-		System.out.println("\n\n\n\n------------------> Adding to cart");
-		System.out.println("--------------------------> ProductId: " + productId + " Quantity: " + quantity + " UserId: " + userId);
-		//System.out.println("ProductId: " + userCart.getProductId() + " Quantity: " + userCart.getQuantity() + " UserId: " + userCart.getUserId());
-		float productPrice = productRepo.getById(Integer.parseInt(productId)).getPrice();
-		Cart userCart = new Cart(Integer.parseInt(userId), Integer.parseInt(productId), productPrice, Integer.parseInt(quantity));
-		System.out.println(userCart);
-		cartRepo.save(userCart);
+	@GetMapping("/checkout")
+	public String checkout(Model model) {
 		
-		return "redirect:/cart";
+		List<Cart> currUserCart = cartRepo.findByUserId(pUser.getId());
 		
+		ArrayList<UserCartProducts> userCartProducts = new ArrayList<>();
 		
+		for (Cart c : currUserCart) {
+			Product currProduct = productRepo.findById(c.getProductId()).get();
+			userCartProducts.add(new UserCartProducts(c.getProductId(), c.getUserId(), c.getPrice(), c.getQuantity(), currProduct.getImage(), currProduct.getName()));
+		}
+		
+		float totalPrice = 0;
+		
+		for (UserCartProducts u : userCartProducts) {
+			totalPrice += u.getPrice()*u.getQuantity();
+//			System.out.println(u);
+		}
+		
+		model.addAttribute("userCartProducts", userCartProducts);
+		model.addAttribute("totalPrice", totalPrice);
+		System.out.println("------------>Total price: " + totalPrice);
+		
+		return "checkout";
 	}
 	
 	@GetMapping("/contactus")
@@ -147,96 +159,6 @@ public class HomeController {
 	@GetMapping("/vetfinder")
 	public String getVetFinder() {
 		return "vetfinder";
-	}
-	
-	@GetMapping("/store")
-	public String getStore(@RequestParam(name = "param") String storeQuery, Model model) {
-		System.out.println("-------------------> " + storeQuery);
-		
-		List<Product> storeProduct = new ArrayList<>();
-		
-		if (storeQuery.equals("All"))
-			storeProduct = productRepo.findAll();
-		else
-			storeProduct = productRepo.findByCategory(storeQuery);
-		
-		model.addAttribute("storeProduct", storeProduct);
-		
-		
-		return "store";
-	}
-	
-	@PostMapping("/store")
-	public String filterStoreByPrice(Model model,
-			@RequestParam(name = "amount") String amount) {
-		
-		System.out.println(amount);
-		String[] limit = amount.split("-");
-		
-		float startPrice = Float.parseFloat(limit[0]);
-		float endPrice = Float.parseFloat(limit[1]);
-		
-		System.out.println("\n\n------>Start price: " + startPrice + " End price: " + endPrice);
-		
-		List<Product> storeProduct = new ArrayList<>();
-		
-//		if (storeQuery.equals("All"))
-			storeProduct = productRepo.findByPriceBetween(startPrice, endPrice);
-		
-		System.out.println("===================>Product within price:");
-			for (Product p : storeProduct)
-				System.out.println(p);
-//		else
-//			storeProduct = productRepo.findByCategoryAndPriceBetween(storeQuery, startPrice, endPrice);
-		
-		model.addAttribute("storeProduct", storeProduct);
-		
-		
-		
-		//return "redirect:/store?param=All";
-		return "store";
-		
-	}
-	
-	@GetMapping("/cart")
-	public String getCart(Model model) {
-		
-		List<UserCartProducts> ucp = new ArrayList<>();
-		List<Cart> currCart = cartRepo.findByUserId(currUserId);
-		for (Cart c : currCart) {
-			Product currProduct = productRepo.getById(c.getProductId());
-			ucp.add(new UserCartProducts(c.getProductId(), c.getUserId(), c.getPrice(), c.getQuantity(), currProduct.getImage(), currProduct.getName()));
-		}
-		model.addAttribute("userCartProducts", ucp);
-		
-		float totalPrice = 0;
-		
-		for (UserCartProducts u : ucp) {
-			totalPrice += u.getPrice()*u.getQuantity();
-//			System.out.println(u);
-		}
-		
-		model.addAttribute("totalPrice", totalPrice);
-		System.out.println("------------>Total price: " + totalPrice);
-		
-		return "cart";
-	}
-	
-	@GetMapping("/deleteFromCart")
-	public String deleteFromCart(@RequestParam String productId,
-								@RequestParam String userId,
-								@RequestParam String quantity,
-								HttpServletRequest request) {
-		System.out.println("\n\n---------------->Delete from cart: " + productId);
-		Cart currCart = cartRepo.findByUserIdAndProductIdAndQuantity(Integer.parseInt(userId), Integer.parseInt(productId), Integer.parseInt(quantity));
-		System.out.println(currCart);
-		//cartRepo.deleteByUserIdAndProductIdAndQuantity(Integer.parseInt(userId), Integer.parseInt(productId), Integer.parseInt(quantity));
-		cartRepo.delete(currCart);
-		
-		
-		return "redirect:/cart";
-		
-		
 	}
 	
 	@GetMapping("/account")

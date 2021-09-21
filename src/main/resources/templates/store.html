@@ -218,44 +218,6 @@
         </div>
         <!-- End Bradcaump area -->
         <!-- Start Shop Page -->
-        <!-- <?php 
-
-            $list = [];
-
-
-            if(isset($_POST['filter'])){
-                $amount = $_POST['amount'];
-                $lastq = false;
-                if(isset($_SESSION['lastq'])){
-                    $lastq = $_SESSION['lastq'];
-                }
-                $listamount = preg_split ("/\-/", $amount); 
-                if($lastq !== 'All'){
-                    $list = $conn->query("SELECT * FROM product WHERE (price BETWEEN $listamount[0] AND $listamount[1] AND category='$lastq' )");
-                }else{
-                    $list = $conn->query("SELECT * FROM product WHERE price BETWEEN $listamount[0] AND $listamount[1]");
-                }
-                if (!$list) die ($conn->error);
-            }
-
-            if(isset($_GET['query'])){
-                $q = $_GET['query'];
-                $_SESSION['lastq'] = $q;
-                if($q == 'All'){
-                    $list = $conn->query("SELECT * FROM product ");
-                }else{
-                    $list = $conn->query("SELECT * FROM product WHERE category LIKE '%$q%'");
-                }
-                
-                if (!$list) die ($conn->error);
-            }
-            if(isset($_POST['search'])){
-                $s = $_POST['value'];
-                $list = $conn->query("SELECT * FROM product WHERE (name LIKE '%$s%' or category LIKE '%$s%' )");
-                if (!$list) die ($conn->error);
-
-            }
-        ?> -->
 
 
 
@@ -305,12 +267,7 @@
                         <div class="tab__container">
                             <div class="shop-grid tab-pane fade show active" id="nav-grid" role="tabpanel">
                                 <div class="row">
-                                    
-                                    <!-- <?php 
-                                    
-                                        if($list){
-                                            while($data=$list->fetch_array()){
-                                                echo ' -->
+
                                                 
                                              <tr th:each="product: ${storeProduct}">
                                                 
@@ -338,13 +295,7 @@
                                                     </div>
                                                 </div>
                                             </tr>
-                                                <!-- ';
-                                            }
-                                        }
 
-                                    
-                                    
-                                    ?> -->
                                     
 
                                 </div>
