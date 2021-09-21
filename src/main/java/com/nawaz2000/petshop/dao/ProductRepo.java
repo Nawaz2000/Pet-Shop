@@ -15,4 +15,8 @@ public interface ProductRepo extends JpaRepository<Product, Integer> {
 	
 	public List<Product> findByCategory(String category);
 	
+	public List<Product> findByCategoryAndPriceBetween(String category, float start, float end);
+	
+	public List<Product> findByPriceBetween(float start, float end);
+	
 }

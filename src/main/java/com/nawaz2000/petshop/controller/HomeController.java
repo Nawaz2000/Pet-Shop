@@ -166,6 +166,38 @@ public class HomeController {
 		return "store";
 	}
 	
+	@PostMapping("/store")
+	public String filterStoreByPrice(Model model,
+			@RequestParam(name = "amount") String amount) {
+		
+		System.out.println(amount);
+		String[] limit = amount.split("-");
+		
+		float startPrice = Float.parseFloat(limit[0]);
+		float endPrice = Float.parseFloat(limit[1]);
+		
+		System.out.println("\n\n------>Start price: " + startPrice + " End price: " + endPrice);
+		
+		List<Product> storeProduct = new ArrayList<>();
+		
+//		if (storeQuery.equals("All"))
+			storeProduct = productRepo.findByPriceBetween(startPrice, endPrice);
+		
+		System.out.println("===================>Product within price:");
+			for (Product p : storeProduct)
+				System.out.println(p);
+//		else
+//			storeProduct = productRepo.findByCategoryAndPriceBetween(storeQuery, startPrice, endPrice);
+		
+		model.addAttribute("storeProduct", storeProduct);
+		
+		
+		
+		//return "redirect:/store?param=All";
+		return "store";
+		
+	}
+	
 	@GetMapping("/cart")
 	public String getCart(Model model) {
 		
