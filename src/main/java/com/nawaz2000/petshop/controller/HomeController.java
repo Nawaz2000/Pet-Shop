@@ -17,6 +17,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -70,7 +71,7 @@ public class HomeController {
 			System.out.println("----------------------------> CurrUser id: " + currUser.getId());
 			
 			model.addAttribute("currUser", currUser);
-			// session.setAttribute("user", currUser);
+			session.setAttribute("user", currUser);
 			
 			List<Cart> currUserCart = cartRepo.findByUserId(currUser.getId());
 			
@@ -107,6 +108,7 @@ public class HomeController {
 		Product productById = productRepo.getById(Integer.parseInt(id));
 		System.out.println("------------> Single Product: " + productById);
 		model.addAttribute("singleProduct", productById);
+		model.addAttribute("userCart", new Cart());
 		return "singleproduct";
 		
 	}
@@ -117,6 +119,12 @@ public class HomeController {
 							@RequestParam(name = "qty") String quantity, Model model) {
 		System.out.println("\n\n\n\n------------------> Adding to cart");
 		System.out.println("--------------------------> ProductId: " + productId + " Quantity: " + quantity + " UserId: " + userId);
+		//System.out.println("ProductId: " + userCart.getProductId() + " Quantity: " + userCart.getQuantity() + " UserId: " + userCart.getUserId());
+		float productPrice = productRepo.getById(Integer.parseInt(productId)).getPrice();
+		Cart userCart = new Cart(Integer.parseInt(userId), Integer.parseInt(productId), productPrice, Integer.parseInt(quantity));
+		System.out.println(userCart);
+		cartRepo.save(userCart);
+		
 		return "index";
 	}
 	

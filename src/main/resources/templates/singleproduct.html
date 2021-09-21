@@ -186,45 +186,7 @@
                 </div>
             </div>
         </div>
-        <!--<?php 
-            require_once 'db.php';
-            $conn = new mysqli($hn,$un,$pw,$db); 
-            if ($conn ->connect_error) die ($conn->connect_error);
-            if(isset($_POST['addpro'])){
-                if(isset($_SESSION['user'])){
-                    $user = $_SESSION['user'];
-                    $product = $_POST['pro'];
-                    $qty = $_POST['qty'];
-                    $check_duplicate = $conn->query("SELECT * from cart WHERE (user_id='$user'&&product_id='$product')");
-                    
-                    if($check_duplicate->num_rows <= 0){
-                        
-                        $product_q = $conn->query("SELECT * from product WHERE id=$product");
-                        $product_details = $product_q->fetch_array();
-                        $productid = $product_details['id'];
-                        $productprice = $product_details['price'];
-                        $newprice = $productprice * $qty;
-                        $productq = "INSERT INTO cart (user_id,product_id,price,quantity) VALUES ('$user','$productid','$newprice','$qty')";
-                        $add_product = $conn->query($productq);
-                        if (!$add_product) die ($conn->error);
-                        $_SESSION['msg_add_cart'] =  $product_details['name'].' product has added on cart';
-                    }else{
-                        $_SESSION['msg_add_cart'] = 'Selected product already in cart';
-    
-                    }
-                    echo '<script type="text/javascript">
-                        location.replace("index.php");
-                    </script>';
-    
-                }else{
-                    $_SESSION['loginrequired'] = 'Please login before adding product to cart';
-                    echo '<script type="text/javascript">
-                        location.replace("login.php");
-                    </script>';
-                }
-            }
         
-        ?>-->
         <div class="maincontent bg--white pt--80 pb--55">
         	<div class="container">
         		<div class="row">
