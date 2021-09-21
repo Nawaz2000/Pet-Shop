@@ -266,17 +266,13 @@
                                 </table>
                             </div>
                         </form> 
-                        <!--<?php 
-                            
-                            if($cartq->num_rows !== 0){
-                                echo '<div class="cartbox__btn">
+                       
+                                <div class="cartbox__btn">
                                     <ul class="cart__btn__list d-flex flex-wrap flex-md-nowrap flex-lg-nowrap justify-content-end">
-                                        <li><a href="checkout.php">Check Out</a></li>
+                                        <li><a th:href="@{/checkout}">Check Out</a></li>
                                     </ul>
-                                </div>';
-                            }
-                        
-                        ?>-->
+                                </div>
+                                
                     </div>
                 </div>
                 
@@ -309,6 +305,7 @@
                                     
                                 
                                 ?>-->
+                                <span th:text="${totalPrice}"></span>
                             </div>
                         </div>
                     </div>

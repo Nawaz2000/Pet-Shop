@@ -85,10 +85,16 @@ public class HomeController {
 				userCartProducts.add(new UserCartProducts(c.getProductId(), c.getUserId(), c.getPrice(), c.getQuantity(), currProduct.getImage(), currProduct.getName()));
 			}
 			
-			for (UserCartProducts u : userCartProducts)
-				System.out.println(u);
+			float totalPrice = 0;
+			
+			for (UserCartProducts u : userCartProducts) {
+				totalPrice += u.getPrice()*u.getQuantity();
+//				System.out.println(u);
+			}
 			
 			model.addAttribute("userCartProducts", userCartProducts);
+			model.addAttribute("totalPrice", totalPrice);
+			System.out.println("------------>Total price: " + totalPrice);
 			
 		}
 		
@@ -160,8 +166,15 @@ public class HomeController {
 		}
 		model.addAttribute("userCartProducts", ucp);
 		
-		for (UserCartProducts u : ucp)
-			System.out.println(u);
+		float totalPrice = 0;
+		
+		for (UserCartProducts u : ucp) {
+			totalPrice += u.getPrice()*u.getQuantity();
+//			System.out.println(u);
+		}
+		
+		model.addAttribute("totalPrice", totalPrice);
+		System.out.println("------------>Total price: " + totalPrice);
 		
 		return "cart";
 	}
