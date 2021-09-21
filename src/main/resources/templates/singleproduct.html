@@ -1,5 +1,5 @@
 <!doctype html>
-<html class="no-js" lang="zxx" xmlns:th="http://www.thymeleaf.org">
+<html class="no-js" lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="utf-8">
@@ -7,7 +7,7 @@
     <title></title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <?php session_start(); $msg_add_cart='';?>
+    <!-- <?php session_start(); $msg_add_cart='';?> -->
 
     <!-- Favicons -->
     <link rel="shortcut icon" href="#">
@@ -40,7 +40,7 @@
                 <div class="row">
                     <div class="col-md-6 col-sm-6 col-6 col-lg-2">
                         <div class="logo">
-                            <a href="index.php">
+                            <a th:href="@{/index}">
                                 <img src="images/logo/logo.png" alt="logo images">
                             </a>
                         </div>
@@ -69,41 +69,52 @@
                                         <!--<?php 
                                         
                                         if(isset($_SESSION['user'])){
-                                            echo '<div class="switcher-currency">
+                                            echo ' -->
+                                        
+                                        
+                                        <div sec:authorize="isAuthenticated()">    
+                                            <div class="switcher-currency">
                                             <strong class="label switcher-label">
                                                 <span>My Account</span>
                                             </strong>
                                             <div class="switcher-options">
                                                 <div class="switcher-currency-trigger">
                                                     <div class="setting__menu">
-                                                        <span><a href="account.php">Profile</a></span>
+                                                        <span><a th:href="@{/account}">Profile</a></span>
                                                     </div>
                                                     <div class="setting__menu">
-                                                        <span><a href="orders.php">Orders</a></span>
+                                                        <span><a th:href="@{/orders}">Orders</a></span>
                                                     </div>
                                                     <div class="setting__menu">
-                                                        <span><a href="?logout=user">Logout</a></span>
+                                                        <span><a th:href="@{/logout}">Logout</a></span>
                                                     </div>
                                                     
                                                 </div>
                                             </div>
-                                        </div>';
+                                        	</div>
+                                        </div>
+                                        
+                                        <!-- ';
                                         }else{
-                                            echo '<div class="switcher-currency">
+                                            echo ' -->
+                                        <div sec:authorize="isAnonymous()">    
+                                            <div class="switcher-currency">
                                             <strong class="label switcher-label">
                                                 <span>Register</span>
                                             </strong>
                                             <div class="switcher-options">
                                                 <div class="switcher-currency-trigger">
                                                     <div class="setting__menu">
-                                                        <span><a href="login.php">Login</a></span>
+                                                        <span><a th:href="@{/login}">Login</a></span>
                                                     </div>
                                                     <div class="setting__menu">
-                                                        <span><a href="register.php">Register</a></span>
+                                                        <span><a th:href="@{/register}">Register</a></span>
                                                     </div>
                                                 </div>
-                                            </div>';
-                                        }
+                                            </div>
+                                            
+                                            <!-- ';
+                                        } 
 
 
                                         
@@ -122,7 +133,7 @@
                                         </div>
         
                                         <div class="mini_action checkout">
-                                            <a class="checkout__btn" href="cart.php">Go to Cart</a>
+                                            <a class="checkout__btn" th:href="@{/cart}">Go to Cart</a>
                                         </div>
                                         <div class="single__items">
                                             <div class="miniproduct">
@@ -139,21 +150,26 @@
                                                                 $proid = $data['product_id'];
                                                                 $proq = $conn->query("SELECT * from product WHERE id=$proid");
                                                                 $prodetails = $proq->fetch_array();
-                                                                echo '<div class="item01 d-flex">
+                                                                echo '
+                                                                -->
+                                                                
+                                                                <div class="item01 d-flex">
                                                                     <div class="thumb">
-                                                                        <a href="product-details.php"><img
-                                                                                src="'.$prodetails['image'].'"
+                                                                        <a th:href="@{/product-details}"><img
+                                                                                th:src="${singleProduct.image}"
                                                                                 alt="product images"></a>
                                                                     </div>
                                                                     <div class="content">
-                                                                        <h6><a href="#">'.$prodetails['name'].'</a></h6>
-                                                                        <span class="prize">$'.$data['price'].'</span>
+                                                                        <h6><a href="#"><h4 th:text="${userCartProducts?.name}"></h4> </a></h6>
+                                                                        <span class="prize" th:text="${userCartProducts?.price}"></span>
                                                                         <div class="product_prize d-flex justify-content-between">
-                                                                            <span class="qun">Qty: 0'.$data['quantity'].'</span>
+                                                                            <span class="qun">Qty: <h4 th:text="${userCartProducts?.quantity}"></h4> </span>
                                                                             
                                                                         </div>
                                                                     </div>
-                                                                </div>';
+                                                                </div>
+                                                                
+                                                                <!-- ';
                                                             }   
                                                         }
 
@@ -252,7 +268,7 @@
 
         				<div class="wn__single__product">
                         
-                        <form method="post" action="singleproduct.php">
+                        <form method="post" th:action="@{/singleproduct}">
                             <div class="row">
         						<!--<?php 
                                     
@@ -262,27 +278,29 @@
                                         $product_d = $profuct->fetch_array();
                                     
                                         if($product_d){
-                                            echo '
+                                            echo ' -->
+                                            
+                                            
                                             <div class="col-lg-6 col-12">
                                                 <div class="wn__fotorama__wrapper">
                                                     <div class="fotorama wn__fotorama__action" data-nav="thumbs">
-                                                        <a href="#"><img src="'.$product_d['image'].'" alt=""></a>		        						
+                                                        <a href="#"><img th:src="${singleProduct.image}" alt=""></a>		        						
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-lg-6 col-12">
                                                 <div class="product__info__main">
-                                                    <h1>'.$product_d['name'].'</h1>
+                                                    <h1 th:text="${singleProduct.name}"></h1>
                                                     
                                                     <div class="price-box">
-                                                        <span>$'.$product_d['price'].'</span>
+                                                        <h1 th:text=" ${'$ ' + singleProduct.price}"></h1>
                                                     </div>
                                                     <div class="product__overview">
-                                                        <p>'.$product_d['descrip'].'</p>
+                                                        <p th:text="${singleProduct.descrip}"></p>
                                                     </div>
                                                     <div class="box-tocart d-flex">
                                                         <span>Qty</span>
-                                                        <input type="hidden" name="pro" value="'.$product_d['id'].'" >
+                                                        <input type="hidden" name="pro" th:value="${singleProduct.id}" >
                                                         <input id="qty" class="input-text qty" value="1" name="qty" min="1"  title="Qty" type="number">
                                                         <div class="addtocart__actions">
                                                             <button class="tocart" name="addpro" type="submit" title="Add to Cart">Add to Cart</button>
@@ -292,7 +310,9 @@
                                                     
                                                     
                                                 </div>
-                                        </div>';
+                                        </div>
+                                        
+                                        <!-- ';
                                         }else{
                                             echo '<div class="col-lg-6 col-12">
                                             <div class="product__info__main">

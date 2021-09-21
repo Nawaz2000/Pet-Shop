@@ -32,22 +32,13 @@
 </head>
 <body>
     <div class="wrapper" id="wrapper">
-    <!--<?php 
-
-    if(isset($_GET['logout'])){
-        unset($_SESSION['user']);
-        echo '<script type="text/javascript">
-            location.replace("index.php");
-        </script>';
-    }
-
-    ?>-->
+   
         <header id="wn__header" class="header__area header__absolute sticky__header">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-6 col-sm-6 col-6 col-lg-2">
                         <div class="logo">
-                            <a href="index.php">
+                            <a th:href="@{/index}">
                                 <img src="images/logo/logo.png" alt="logo images">
                             </a>
                         </div>
@@ -149,21 +140,27 @@
                                                                 $proid = $data['product_id'];
                                                                 $proq = $conn->query("SELECT * from product WHERE id=$proid");
                                                                 $prodetails = $proq->fetch_array();
-                                                                echo '<div class="item01 d-flex">
+                                                                echo ' -->
+                                                        <div sec:authorize="isAuthenticated()">
+                                                            <tr th:each="product: ${popularProduct}">    
+                                                                <div class="item01 d-flex">
                                                                     <div class="thumb">
                                                                         <a href="product-details.php"><img
-                                                                                src="'.$prodetails['image'].'"
+                                                                                th:src="${product.image}"
                                                                                 alt="product images"></a>
                                                                     </div>
                                                                     <div class="content">
-                                                                        <h6><a href="#">'.$prodetails['name'].'</a></h6>
-                                                                        <span class="prize">$'.$data['price'].'</span>
+                                                                        <h6><a href="#"><h4 th:text="${product.name}"></h4></a></h6>
+                                                                        <span class="prize"><h4 th:text="${product.price}"></h4> </span>
                                                                         <div class="product_prize d-flex justify-content-between">
-                                                                            <span class="qun">Qty: 0'.$data['quantity'].'</span>
+                                                                            <span class="qun">Qty: <!-- <h4 th:text="${product.qty}"></h4>--> 3</span>
                                                                             
                                                                         </div>
                                                                     </div>
-                                                                </div>';
+                                                                </div>
+                                                            </tr>
+                                                       </div>
+                                                                <!-- ';
                                                             }   
                                                         }
 
@@ -248,7 +245,7 @@
                         <div class="col-lg-3 col-md-4 col-sm-6 col-12">
                             <div class="product__thumb">
                                 <a class="first__img" href="#"><img src="images/category/reptile.jpg" alt="product image"></a>
-                                <a class="second__img animation1" href="#"><img src="images/category/reptile.jpg"
+                                <a class="second__img animation1" th:href="@{/store(param='reptile')}"><img src="images/category/reptile.jpg"
                                         alt="product image"></a>
                             </div>
                             <div class="product__content content--center">
@@ -263,7 +260,7 @@
                         <div class="col-lg-3 col-md-4 col-sm-6 col-12">
                             <div class="product__thumb">
                                 <a class="first__img" href="#"><img src="images/category/cat.jpg" alt="product image"></a>
-                                <a class="second__img animation1" href="#"><img src="images/category/cat.jpg"
+                                <a class="second__img animation1" th:href="@{/store(param='cat')}"><img src="images/category/cat.jpg"
                                         alt="product image"></a>
                             </div>
                             <div class="product__content content--center">
@@ -278,7 +275,7 @@
                         <div class="col-lg-3 col-md-4 col-sm-6 col-12">
                             <div class="product__thumb">
                                 <a class="first__img" href="#"><img src="images/category/dog.jpg" alt="product image"></a>
-                                <a class="second__img animation1" href="#"><img src="images/category/dog.jpg"
+                                <a class="second__img animation1"th:href="@{/store(param='dog')}"><img src="images/category/dog.jpg"
                                         alt="product image"></a>
                             </div>
                             <div class="product__content content--center">
@@ -293,7 +290,7 @@
                         <div class="col-lg-3 col-md-4 col-sm-6 col-12">
                             <div class="product__thumb">
                                 <a class="first__img" href="#"><img src="images/category/bird.jpg" alt="product image"></a>
-                                <a class="second__img animation1" href="#"><img src="images/category/bird.jpg"
+                                <a class="second__img animation1" th:href="@{/store(param='bird')}"><img src="images/category/bird.jpg"
                                         alt="product image"></a>
                             </div>
                             <div class="product__content content--center">
@@ -356,30 +353,34 @@
 
                     if($product){
                         while($data=$product->fetch_array()){
-                            echo '
+                            echo '-->
+                            
+                         <tr th:each="product: ${popularProduct}">
+                           
                             <div class="col-lg-3 col-md-4 col-sm-6 col-12">
                                 <div class="product product__style--3">
                                     <div class="product__thumb">
-                                        <a class="first__img" href="#"><img src='.$data["image"].'
+                                        <a class="first__img" href="#"><img th:src="${product.image}"
                                                 alt="product image"></a>
                         
                                     </div>
                                     <div class="product__content content--center content--center">
-                                        <h4><a href="#">'.$data["name"].'</a></h4>
+                                        <h4><a href="#"><h4 th:text="${product.name}"></h4></a></h4>
                                         <ul class="prize d-flex">
-                                            <li>$'.$data["price"].'</li>
+                                            <li th:text="${product.price}"></li>
                                         </ul>
                                         <div class="action">
                                             <div class="actions_inner">
                                                 <ul class="add_to_links">
-                                                    <li><a href="singleproduct.php?id='.$data["id"].'"><i class="fa fa-shopping-cart"></i></a></li>
+                                                    <li><a th:href="@{/singleproduct(id = ${product.id})}"><i class="fa fa-shopping-cart"></i></a></li>
                                                 </ul>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        ';
+                         </tr>
+                        <!--';
                         }
                     }
                     
@@ -435,6 +436,9 @@
                                     </a>
                                 </div>
                                 <div class="footer__content">
+                                
+                                
+                                
                                     <ul class="social__net social__net--2 d-flex justify-content-center">
                                         <li><a href="#"><i class="bi bi-facebook"></i></a></li>
                                         <li><a href="#"><i class="bi bi-google"></i></a></li>

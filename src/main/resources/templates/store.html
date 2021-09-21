@@ -52,7 +52,7 @@
                 <div class="row">
                     <div class="col-md-6 col-sm-6 col-6 col-lg-2">
                         <div class="logo">
-                            <a href="index.php">
+                            <a th:href="@{/index}">
                                 <img src="images/logo/logo.png" alt="logo images">
                             </a>
                         </div>
@@ -154,21 +154,27 @@
                                                                 $proid = $data['product_id'];
                                                                 $proq = $conn->query("SELECT * from product WHERE id=$proid");
                                                                 $prodetails = $proq->fetch_array();
-                                                                echo '<div class="item01 d-flex">
+                                                                echo ' -->
+                                                         
+                                                         <tr th:each="ucp: ${userCartProducts}">       
+                                                                <div class="item01 d-flex">
                                                                     <div class="thumb">
-                                                                        <a href="product-details.php"><img
-                                                                                src="'.$prodetails['image'].'"
+                                                                        <a th:href="@{/product-details}"><img
+                                                                                th:src="@{ucp.image}"
                                                                                 alt="product images"></a>
                                                                     </div>
                                                                     <div class="content">
-                                                                        <h6><a href="#">'.$prodetails['name'].'</a></h6>
+                                                                        <h6><a href="#"><h4 th:text="${ucp.name}"></h4> </a></h6>
                                                                         <span class="prize">$'.$data['price'].'</span>
                                                                         <div class="product_prize d-flex justify-content-between">
-                                                                            <span class="qun">Qty: 0'.$data['quantity'].'</span>
+                                                                            <span class="qun">Qty: <h4 th:text="ucp.quantity"></h4> </span>
                                                                             
                                                                         </div>
                                                                     </div>
-                                                                </div>';
+                                                                </div>
+                                                          </tr>
+                                                                
+                                                                <!-- ';
                                                             }   
                                                         }
 

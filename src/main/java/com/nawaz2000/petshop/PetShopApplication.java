@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import com.nawaz2000.petshop.dao.UserRepo;
 
 @SpringBootApplication
-@EnableJpaRepositories(basePackageClasses = UserRepo.class)
+@EnableJpaRepositories(basePackages = "com.nawaz2000.petshop")
 public class PetShopApplication {
 
 	public static void main(String[] args) {

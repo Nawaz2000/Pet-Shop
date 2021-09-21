@@ -54,7 +54,7 @@
                 <div class="row">
                     <div class="col-md-6 col-sm-6 col-6 col-lg-2">
                         <div class="logo">
-                            <a href="index.php">
+                            <a th:href="@{/index}">
                                 <img src="images/logo/logo.png" alt="logo images">
                             </a>
                         </div>
@@ -114,35 +114,27 @@
                                             <a class="checkout__btn" th:href="@{/cart}">Go to Cart</a>
                                         </div>
                                         <div class="single__items">
-                                            <div class="miniproduct">
-                                                <!--<?php 
-                                                    require_once 'db.php';
-                                                    $conn = new mysqli($hn,$un,$pw,$db); 
-                                                    if ($conn ->connect_error) die ($conn->connect_error);
-
-                                                    if(isset($_SESSION['user'])){
-                                                        $user = $_SESSION['user'];
-                                                        $q = $conn->query("SELECT * from cart WHERE user_id='$user'");
-                                                        if($q){
-                                                            while($data=$q->fetch_array()){
-                                                                $proid = $data['product_id'];
-                                                                $proq = $conn->query("SELECT * from product WHERE id=$proid");
-                                                                $prodetails = $proq->fetch_array();
-                                                                echo '<div class="item01 d-flex">
-                                                                    <div class="thumb">
-                                                                        <a href="product-details.php"><img
-                                                                                src="'.$prodetails['image'].'"
-                                                                                alt="product images"></a>
-                                                                    </div>
-                                                                    <div class="content">
-                                                                        <h6><a href="#">'.$prodetails['name'].'</a></h6>
-                                                                        <span class="prize">$'.$data['price'].'</span>
-                                                                        <div class="product_prize d-flex justify-content-between">
-                                                                            <span class="qun">Qty: 0'.$data['quantity'].'</span>
+                                            <div class="miniproduct">                                                                
+                                                                
+                                                 <tr th:each="ucp: ${userCartProducts}">   
+                                                       <div class="item01 d-flex">
+                                                            <div class="thumb">
+                                                                 <a th:href="@{/product-details}"><img
+                                                                     th:src="${ucp.image}"
+                                                                     alt="product images"></a>
+                                                            </div>
+                                                            <div class="content">
+                                                                 <h6><a href="#"><h4 th:text="ucp.name"></h4> </a></h6>
+                                                                    <span class="prize" th:text="${ucp.price}"></span>
+                                                                      <div class="product_prize d-flex justify-content-between">
+                                                                          <span class="qun">Qty: <h4 th:text="${ucp.quantity}"></h4> </span>
                                                                             
-                                                                        </div>
-                                                                    </div>
-                                                                </div>';
+                                                                      </div>
+                                                            </div>
+                                                      </div>
+                                                </tr>
+                                                                
+                                                                <!-- ';
                                                             }   
                                                         }
 
@@ -261,14 +253,21 @@
                                                 $productid = $data['product_id'];
                                                 $productq = $conn->query("SELECT * from product WHERE id=$productid");
                                                 $productdetails = $productq->fetch_array();
-                                                echo '<tr>
-                                                    <td class="product-thumbnail"><a href="#"><img src="'.$productdetails["image"].'" alt="product img"></a></td>
-                                                    <td class="product-name"><a href="#">'.$productdetails['name'].'</a></td>
-                                                    <td class="product-price"><span class="amount">$'.$productdetails['price'].'</span></td>
-                                                    <td class="product-quantity"><input type="number" value="'.$data['quantity'].'"  onchange="productQuntity('.$productdetails['id'].','.$data['id'].',event)"></td>
-                                                    <td class="product-subtotal">$'.$data['price'].'</td>
+                                                echo ' -->
+                                           <tr th:each="ucp: ${userCartProducts}">
+                                                <tr>
+                                                    <td class="product-thumbnail"><a href="#"><img src="${ucp?.image}" alt="product img"></a></td>
+                                                    <td class="product-name"><a href="#"><h4 th:text="${ucp?.name}"></h4> </a></td>
+                                                    <td class="product-price"><span class="amount" th:text="${ucp?.price}"></span></td>
+                                                    <td class="product-quantity"><input type="number" th:value="${ucp?.quantity}"  onchange=""></td>
+                                                    
+                                                    
+													<td class="product-subtotal"><h4 th:text="${ucp?.price}"></h4> </td>
+                                                    
                                                     <td class="product-remove"><a href="?remove='.$data['id'].'">X</a></td>
-                                                </tr>';
+                                                </tr>
+                                           
+                                                <!-- ';
                                             }
                                         }
                                         

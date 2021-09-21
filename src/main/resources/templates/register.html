@@ -73,7 +73,7 @@
                 <div class="row">
                     <div class="col-md-6 col-sm-6 col-6 col-lg-2">
                         <div class="logo">
-                            <a href="index.php">
+                            <a th:href="@{/index}">
                                 <img src="images/logo/logo.png" alt="logo images">
                             </a>
                         </div>
@@ -156,7 +156,7 @@
                                         </div>
         
                                         <div class="mini_action checkout">
-                                            <a class="checkout__btn" href="cart.php">Go to Cart</a>
+                                            <a class="checkout__btn" th:href="@{/cart}">Go to Cart</a>
                                         </div>
                                         <div class="single__items">
                                             <div class="miniproduct">
@@ -251,38 +251,50 @@
 
 							<div class="comment_respond">
 								<h3 class="reply_title">Registration form</h3>
-								<form class="comment__form" action="register.php" method='post'>
+								<form class="comment__form" th:action="@{/register}" method='post' th:object="${newUser}">
 									<div class="input__wrapper clearfix">
 										<div class="input__box name one--third">
 											<label>First Name</label>
-											<input type="text" name='fname'>
+											<input type="text" name='fname' th:field="*{fName}">
 										</div>
 
                                         <div class="input__box name one--third">
 											<label>Last Name</label>
-											<input type="text" name='lname' >
+											<input type="text" name='lname' th:field="*{lName}">
+										</div>
+										<div class="input__box username one--third">
+											<label>Username</label>
+											<input type="username" name='username' th:field="*{username}">
 										</div>
 										<div class="input__box email one--third">
-											<label>email</label>
-											<input type="email" name='email'>
+											<label>Email</label>
+											<input type="email" name='email' th:field="*{email}">
 										</div>
 										<div class="input__box website one--third">
 											<label>Phone</label>
-											<input type="text" name='phone'>
+											<input type="text" name='phone' th:field="*{phone}">
 										</div>
                                         <div class="input__box website one--third">
 											<label>Gender</label>
-											<input type="text" name='gender' >
+											<input type="text" name='gender' th:field="*{gender}">
 										</div>
                                         <div class="input__box website one--third">
 											<label>Date of Birth</label>
-											<input type="date" name='dob' >
+											<input type="date" name='dob' th:field="*{dob}">
 										</div>
                                         <br>
                                         <div class="input__box website one--third">
 											<label>Password</label>
-											<input type="password" name='pass'>
+											<input type="password" name='pass' th:field="*{password}">
 										</div>
+										<div class="input__box website one--third">
+                                        	<label>Role<span>*</span></label>
+                                        		<select class="select__option" name='role' th:field="*{role}"> 
+                                            		<option value=''>Select a role</option>
+                                            		<option value='ROLE_ADMIN'>ROLE_ADMIN</option>
+                                            		<option value='ROLE_USER'>ROLE_USER</option>                                            
+                                        		</select>
+                                    	</div>
                                        
 									</div>
 									<div class="submite__btn">
