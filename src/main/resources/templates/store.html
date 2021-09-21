@@ -246,131 +246,43 @@
         </div>
         <!-- End Bradcaump area -->
         <!-- Start Shop Page -->
-        <!--<?php 
-
-            $list = [];
-
-
-            if(isset($_POST['filter'])){
-                $amount = $_POST['amount'];
-                $lastq = false;
-                if(isset($_SESSION['lastq'])){
-                    $lastq = $_SESSION['lastq'];
-                }
-                $listamount = preg_split ("/\-/", $amount); 
-                if($lastq !== 'All'){
-                    $list = $conn->query("SELECT * FROM product WHERE (price BETWEEN $listamount[0] AND $listamount[1] AND category='$lastq' )");
-                }else{
-                    $list = $conn->query("SELECT * FROM product WHERE price BETWEEN $listamount[0] AND $listamount[1]");
-                }
-                if (!$list) die ($conn->error);
-            }
-
-            if(isset($_GET['query'])){
-                $q = $_GET['query'];
-                $_SESSION['lastq'] = $q;
-                if($q == 'All'){
-                    $list = $conn->query("SELECT * FROM product ");
-                }else{
-                    $list = $conn->query("SELECT * FROM product WHERE category LIKE '%$q%'");
-                }
-                
-                if (!$list) die ($conn->error);
-            }
-            if(isset($_POST['search'])){
-                $s = $_POST['value'];
-                $list = $conn->query("SELECT * FROM product WHERE (name LIKE '%$s%' or category LIKE '%$s%' )");
-                if (!$list) die ($conn->error);
-
-            }
-        ?>-->
-
-
-
-        <div class="page-shop-sidebar left--sidebar bg--white section-padding--lg">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-3 col-12 order-2 order-lg-1 md-mt-40 sm-mt-40">
-                        <div class="shop__sidebar">
-                            <aside class="wedget__categories poroduct--cat">
-                                <h3 class="wedget__title">Product Categories</h3>
-                                <ul>
-                                    <li><a th:href="@{/store(param='cat')}">Cats</a></li>
-                                    <li><a th:href="@{/store(param='dog')}">Dogs</a></li>
-                                    <li><a th:href="@{/store(param='bird')}">Birds</a></li>
-                                    <li><a th:href="@{/store(param='reptile')}">Reptiles</a></li>
-
-                                </ul>
-                            </aside>
-                            <aside class="wedget__categories pro--range">
-                                <h3 class="wedget__title">Filter by price</h3>
-                                <div class="content-shopby">
-                                    <div class="price_filter s-filter clear">
-                                        <form th:action="@{/store}" method="POST">
-                                            <div id="slider-range"></div>
-                                            <div class="slider__range--output">
-                                                <div class="price__output--wrap">
-                                                    <div class="price--output">
-                                                        <span>Price :</span><input type="text" id="amount" name='amount' readonly="">
-                                                    </div>
-                                                    <div class="price--filter">
-                                                        <button class='specialBtnFilter' type='submit' name='filter'>Filter</a>
-                                                    </div>
-                                                </div>
+        <div class="block-minicart minicart__active">
+                                    <div class="minicart-content-wrapper">
+                                        <div class="micart__close">
+                                            <span>close</span>
+                                        </div>
+        
+                                        <div class="mini_action checkout">
+                                            <a class="checkout__btn" th:href="@{/cart}">Go to Cart</a>
+                                        </div>
+                                        <div class="single__items">
+                                            <div class="miniproduct">                                                                
+                                                                
+                                                 <tr th:each="ucp: ${userCartProducts}">   
+                                                       <div class="item01 d-flex">
+                                                            <div class="thumb">
+                                                                 <a th:href="@{/product-details}"><img
+                                                                     th:src="${ucp.image}"
+                                                                     alt="product images"></a>
+                                                            </div>
+                                                            <div class="content">
+                                                                 <h6><a href="#"><h4 th:text="ucp.name"></h4> </a></h6>
+                                                                    <span class="prize" th:text="${ucp.price}"></span>
+                                                                      <div class="product_prize d-flex justify-content-between">
+                                                                          <span class="qun">Qty: <h4 th:text="${ucp.quantity}"></h4> </span>
+                                                                            
+                                                                      </div>
+                                                            </div>
+                                                      </div>
+                                                </tr>
+                                                                
+                                                                
+                                                
+                                                
                                             </div>
-                                        </form>
+                                        </div>
                                     </div>
                                 </div>
-                            </aside>
-                        </div>
-                    </div>
-                    <div class="col-lg-9 col-12 order-1 order-lg-2">
-
-                        <div class="tab__container">
-                            <div class="shop-grid tab-pane fade show active" id="nav-grid" role="tabpanel">
-                                <div class="row">
-                                    <!--<?php 
-                                    
-                                        if($list){
-                                            while($data=$list->fetch_array()){
-                                                echo '<div class="product product__style--3 col-lg-4 col-md-4 col-sm-6 col-12">
-                                                    <div class="product__thumb">
-                                                        <a class="first__img" href="#"><img src="'.$data['image'].'"
-                                                                alt="product image"></a>
-                                                        
-            
-                                                    </div>
-                                                    <div class="product__content content--center">
-                                                        <h4><a href="#">'.$data['name'].'</a></h4>
-                                                        <ul class="prize d-flex">
-                                                            <li>$'.$data['price'].'</li>
-                                                        </ul>
-                                                        <div class="action">
-                                                            <div class="actions_inner">
-                                                                <ul class="add_to_links">
-                                                                    <li><a class="cart" href="singleproduct.php?id='.$data['id'].'"><i
-                                                                                class="bi bi-shopping-bag4"></i></a></li>
-            
-                                                                </ul>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>';
-                                            }
-                                        }
-
-                                    
-                                    
-                                    ?>-->
-                                    
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
         <!-- End Shop Page -->
         <!-- Footer Area -->
         <footer id="wn__footer" class="footer__area bg__cat--8 brown--color">

@@ -134,13 +134,7 @@
                                                       </div>
                                                 </tr>
                                                                 
-                                                                <!-- ';
-                                                            }   
-                                                        }
-
-                                                    }
-
-                                                ?>-->
+                                                                
                                                 
                                                 
                                             </div>
@@ -245,18 +239,10 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <!--<?php 
-                                        
-                                        
-                                        if($cartq){
-                                            while($data=$cartq->fetch_array()){
-                                                $productid = $data['product_id'];
-                                                $productq = $conn->query("SELECT * from product WHERE id=$productid");
-                                                $productdetails = $productq->fetch_array();
-                                                echo ' -->
-                                           <tr th:each="ucp: ${userCartProducts}">
-                                                <tr>
-                                                    <td class="product-thumbnail"><a href="#"><img src="${ucp?.image}" alt="product img"></a></td>
+
+                                           		<tr th:each="ucp: ${userCartProducts}">
+                                               
+                                                    <td class="product-thumbnail"><a href="#"><img th:src="${ucp?.image}" alt="product img"></a></td>
                                                     <td class="product-name"><a href="#"><h4 th:text="${ucp?.name}"></h4> </a></td>
                                                     <td class="product-price"><span class="amount" th:text="${ucp?.price}"></span></td>
                                                     <td class="product-quantity"><input type="number" th:value="${ucp?.quantity}"  onchange=""></td>
@@ -264,8 +250,11 @@
                                                     
 													<td class="product-subtotal"><h4 th:text="${ucp?.price}"></h4> </td>
                                                     
-                                                    <td class="product-remove"><a href="?remove='.$data['id'].'">X</a></td>
+                                                    <td class="product-remove"><a th:href="@{/deleteFromCart(productId=${ucp.productId},userId=${ucp.userId},quantity=${ucp.quantity})}">X</a></td>
+                                                    
+                                                   
                                                 </tr>
+                                            
                                            
                                                 <!-- ';
                                             }

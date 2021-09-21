@@ -122,23 +122,26 @@
                                             <a class="checkout__btn" th:href="@{/cart}">Go to Cart</a>
                                         </div>
                                         <div class="single__items">
-                                            <div class="miniproduct">
+                                            <div class="miniproduct">                                                                
                                                                 
-                                                                <div class="item01 d-flex">
-                                                                    <div class="thumb">
-                                                                        <a th:href="@{/product-details}"><img
-                                                                                th:src="${singleProduct.image}"
-                                                                                alt="product images"></a>
-                                                                    </div>
-                                                                    <div class="content">
-                                                                        <h6><a href="#"><h4 th:text="${userCartProducts?.name}"></h4> </a></h6>
-                                                                        <span class="prize" th:text="${userCartProducts?.price}"></span>
-                                                                        <div class="product_prize d-flex justify-content-between">
-                                                                            <span class="qun">Qty: <h4 th:text="${userCartProducts?.quantity}"></h4> </span>
+                                                 <tr th:each="ucp: ${userCartProducts}">   
+                                                       <div class="item01 d-flex">
+                                                            <div class="thumb">
+                                                                 <a th:href="@{/product-details}"><img
+                                                                     th:src="${ucp.image}"
+                                                                     alt="product images"></a>
+                                                            </div>
+                                                            <div class="content">
+                                                                 <h6><a href="#"><h4 th:text="ucp.name"></h4> </a></h6>
+                                                                    <span class="prize" th:text="${ucp.price}"></span>
+                                                                      <div class="product_prize d-flex justify-content-between">
+                                                                          <span class="qun">Qty: <h4 th:text="${ucp.quantity}"></h4> </span>
                                                                             
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
+                                                                      </div>
+                                                            </div>
+                                                      </div>
+                                                </tr>
+                                                                
                                                                 
                                                 
                                                 
@@ -194,7 +197,7 @@
 
         				<div class="wn__single__product">
                         
-                        <form method="post" th:action="@{/cart}">
+                        <form method="post" th:action="@{/addToCart}">
                             <div class="row">
                                             
                                             

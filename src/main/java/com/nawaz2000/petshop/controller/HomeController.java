@@ -36,6 +36,8 @@ import com.nawaz2000.petshop.service.UserCartProducts;
 @Controller
 public class HomeController {
 	
+	private int currUserId;
+	
 	@Autowired
 	@Qualifier("productRepo")
 	private ProductRepo productRepo;
@@ -72,6 +74,7 @@ public class HomeController {
 			
 			model.addAttribute("currUser", currUser);
 			session.setAttribute("user", currUser);
+			currUserId = currUser.getId();
 			
 			List<Cart> currUserCart = cartRepo.findByUserId(currUser.getId());
 			
@@ -79,7 +82,7 @@ public class HomeController {
 			
 			for (Cart c : currUserCart) {
 				Product currProduct = productRepo.findById(c.getProductId()).get();
-				userCartProducts.add(new UserCartProducts(c.getPrice(), c.getQuantity(), currProduct.getImage(), currProduct.getName()));
+				userCartProducts.add(new UserCartProducts(c.getProductId(), c.getUserId(), c.getPrice(), c.getQuantity(), currProduct.getImage(), currProduct.getName()));
 			}
 			
 			for (UserCartProducts u : userCartProducts)
@@ -113,7 +116,7 @@ public class HomeController {
 		
 	}
 	
-	@PostMapping("/cart")
+	@PostMapping("/addToCart")
 	public String addToCart(@RequestParam(name = "pro") String productId,
 							@RequestParam(name = "userId", required = false) String userId,
 							@RequestParam(name = "qty") String quantity, Model model) {
@@ -145,8 +148,32 @@ public class HomeController {
 	}
 	
 	@GetMapping("/cart")
-	public String getCart() {
+	public String getCart(Model model) {
+		
+		List<UserCartProducts> ucp = new ArrayList<>();
+		List<Cart> currCart = cartRepo.findByUserId(currUserId);
+		for (Cart c : currCart) {
+			Product currProduct = productRepo.getById(c.getProductId());
+			ucp.add(new UserCartProducts(c.getProductId(), c.getUserId(), c.getPrice(), c.getQuantity(), currProduct.getImage(), currProduct.getName()));
+		}
+		model.addAttribute("userCartProducts", ucp);
+		
+		for (UserCartProducts u : ucp)
+			System.out.println(u);
+		
 		return "cart";
+	}
+	
+	@GetMapping("/deleteFromCart")
+	public String deleteFromCart(@RequestParam String productId,
+								@RequestParam String userId,
+								@RequestParam String quantity) {
+		System.out.println("\n\n---------------->Delete from cart: " + productId);
+		Cart currCart = cartRepo.findByUserIdAndProductIdAndQuantity(Integer.parseInt(userId), Integer.parseInt(productId), Integer.parseInt(quantity));
+		System.out.println(currCart);
+		//cartRepo.deleteByUserIdAndProductIdAndQuantity(Integer.parseInt(userId), Integer.parseInt(productId), Integer.parseInt(quantity));
+		cartRepo.delete(currCart);
+		return "redirect:/cart";
 	}
 	
 	@GetMapping("/account")

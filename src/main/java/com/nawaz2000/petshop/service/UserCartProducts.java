@@ -4,6 +4,10 @@ import javax.persistence.Column;
 
 public class UserCartProducts {
 	
+	private int productId;
+	
+	private int userId;
+	
 	private float price;
 
 	private int quantity;
@@ -16,12 +20,30 @@ public class UserCartProducts {
 		
 	}
 
-	public UserCartProducts(float price, int quantity, String image, String name) {
+	public UserCartProducts(int productId, int userId, float price, int quantity, String image, String name) {
 		super();
+		this.productId = productId;
+		this.userId = userId;
 		this.price = price;
 		this.quantity = quantity;
 		this.image = image;
 		this.name = name;
+	}
+
+	public int getProductId() {
+		return productId;
+	}
+
+	public void setProductId(int productId) {
+		this.productId = productId;
+	}
+
+	public int getUserId() {
+		return userId;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
 
 	public float getPrice() {
