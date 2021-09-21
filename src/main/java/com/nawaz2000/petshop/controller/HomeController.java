@@ -17,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -45,6 +46,10 @@ public class HomeController {
 	@Qualifier("cartRepo")
 	private CartRepo cartRepo;
 	
+	public void addToModel() {
+		
+	}
+	
 	@GetMapping({"/","/index"})
 	public String getHome(Model model) {
 		
@@ -63,7 +68,7 @@ public class HomeController {
 			User currUser = userRepo.findByUsername(currUsername).get();
 			System.out.println("----------------------------> CurrUser id: " + currUser.getId());
 			
-			model.addAttribute("currUser", userRepo.findById(currUser.getId()));
+			model.addAttribute("currUser", currUser);
 			
 			List<Cart> currUserCart = cartRepo.findByUserId(currUser.getId());
 			
@@ -95,13 +100,22 @@ public class HomeController {
 	
 	@GetMapping("/singleproduct{id}")
 	public String showSingleProduct(@PathParam("id") String id, Model model) {
-//		System.out.println("-------------------> id: " + id);
+		System.out.println("-------------------> id: " + id);
 		
 		Product productById = productRepo.getById(Integer.parseInt(id));
 		System.out.println("------------> Single Product: " + productById);
 		model.addAttribute("singleProduct", productById);
 		return "singleproduct";
 		
+	}
+	
+	@PostMapping("/cart")
+	public String addToCart(@RequestParam(name = "pro") String productId,
+							@RequestParam(name = "userId", required = false) String userId,
+							@RequestParam(name = "qty") String quantity, Model model) {
+		System.out.println("\n\n\n\n------------------> Adding to cart");
+		System.out.println("--------------------------> ProductId: " + productId + " Quantity: " + quantity + " UserId: " + userId);
+		return "index";
 	}
 	
 	@GetMapping("/contactus")
