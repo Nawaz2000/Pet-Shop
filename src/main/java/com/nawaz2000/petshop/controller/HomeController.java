@@ -119,7 +119,7 @@ public class HomeController {
 	@PostMapping("/addToCart")
 	public String addToCart(@RequestParam(name = "pro") String productId,
 							@RequestParam(name = "userId", required = false) String userId,
-							@RequestParam(name = "qty") String quantity, Model model) {
+							@RequestParam(name = "qty") String quantity, Model model, HttpServletRequest request) {
 		System.out.println("\n\n\n\n------------------> Adding to cart");
 		System.out.println("--------------------------> ProductId: " + productId + " Quantity: " + quantity + " UserId: " + userId);
 		//System.out.println("ProductId: " + userCart.getProductId() + " Quantity: " + userCart.getQuantity() + " UserId: " + userCart.getUserId());
@@ -128,7 +128,9 @@ public class HomeController {
 		System.out.println(userCart);
 		cartRepo.save(userCart);
 		
-		return "index";
+		return "redirect:/cart";
+		
+		
 	}
 	
 	@GetMapping("/contactus")
@@ -167,13 +169,18 @@ public class HomeController {
 	@GetMapping("/deleteFromCart")
 	public String deleteFromCart(@RequestParam String productId,
 								@RequestParam String userId,
-								@RequestParam String quantity) {
+								@RequestParam String quantity,
+								HttpServletRequest request) {
 		System.out.println("\n\n---------------->Delete from cart: " + productId);
 		Cart currCart = cartRepo.findByUserIdAndProductIdAndQuantity(Integer.parseInt(userId), Integer.parseInt(productId), Integer.parseInt(quantity));
 		System.out.println(currCart);
 		//cartRepo.deleteByUserIdAndProductIdAndQuantity(Integer.parseInt(userId), Integer.parseInt(productId), Integer.parseInt(quantity));
 		cartRepo.delete(currCart);
+		
+		
 		return "redirect:/cart";
+		
+		
 	}
 	
 	@GetMapping("/account")
