@@ -8,14 +8,6 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!--<?php 
-    session_start(); 
-    if(isset($_SESSION['user'])==''){
-        echo '<script type="text/javascript">
-                location.replace("index.php");
-            </script>';
-    }
-    ?>-->
     <!-- Favicons -->
     <link rel="shortcut icon" href="#">
     <link rel="apple-touch-icon" href="#">
@@ -41,16 +33,7 @@
 <body>
     <div class="wrapper" id="wrapper">
         <!-- Header -->
-        <!--<?php 
 
-            if(isset($_GET['logout'])){
-                unset($_SESSION['user']);
-                echo '<script type="text/javascript">
-                    location.replace("index.php");
-                </script>';
-            }
-        
-        ?>-->
         <header id="wn__header" class="header__area header__absolute sticky__header">
             <div class="container-fluid">
                 <div class="row">
@@ -232,14 +215,18 @@
                                                         $productid = $data['product_id'];
                                                         $productq = $conn->query("SELECT * from product WHERE id=$productid");
                                                         $productdetails = $productq->fetch_array();
-                                                        echo '<tr>
+                                                        echo ' -->
+                                                   <div th:each="o: ${userOrders}">     
+                                                        <tr>
                                                             <td class="product-remove"><a href="#"></a></td>
-                                                            <td class="product-thumbnail"><a href="#"><img src="'.$productdetails['image'].'" width="200px" height="100px" alt=""></a></td>
-                                                            <td class="product-name"><a href="#">'.$productdetails['name'].'</a></td>
-                                                            <td class="product-price"><span class="amount">$'.$data['price'].'</span></td>
-                                                            <td class="product-price"><span class="amount">'.$data['payment'].'</span></td>
-                                                            <td class="product-stock-status"><span class="wishlist-in-stock">'.$data['status'].'</span></td>
-                                                        </tr>';
+                                                            <td class="product-thumbnail"><a href="#"><img th:src="${o.image}" width="200px" height="100px" alt=""></a></td>
+                                                            <td class="product-name"><a href="#"><h6 th:text="${o.name}"></h6></a></td>
+                                                            <td class="product-price"><span class="amount"><h6 th:text="${'$ ' + o.price}"></h6></span></td>
+                                                            <td class="product-price"><span class="amount"><h6 th:text="${o.payment}"></h6></span></td>
+                                                            <td class="product-stock-status"><span class="wishlist-in-stock"><h6 th:text="${o.status}"></h6></span></td>
+                                                        </tr>
+                                                   </div>     
+                                                        <!-- ';
                                                     }
                                                 }
                                             

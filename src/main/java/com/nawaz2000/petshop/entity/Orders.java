@@ -23,7 +23,7 @@ public class Orders {
 	private int productId;
 	
 	@Column(name = "price")
-	private int price;
+	private float price;
 	
 	@Column(name = "qty")
 	private int qty;
@@ -89,7 +89,7 @@ public class Orders {
 		this.productId = productId;
 	}
 
-	public int getPrice() {
+	public float getPrice() {
 		return price;
 	}
 
@@ -151,6 +151,13 @@ public class Orders {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	@Override
+	public String toString() {
+		return "Orders [id=" + id + ", profileId=" + profileId + ", productId=" + productId + ", price=" + price
+				+ ", qty=" + qty + ", country=" + country + ", district=" + district + ", postCode=" + postCode
+				+ ", address=" + address + ", payment=" + payment + ", status=" + status + "]";
 	}
 	
 }

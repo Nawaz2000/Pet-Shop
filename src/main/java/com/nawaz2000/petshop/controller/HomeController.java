@@ -27,12 +27,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.nawaz2000.petshop.dao.CartRepo;
+import com.nawaz2000.petshop.dao.OrdersRepo;
 import com.nawaz2000.petshop.dao.ProductRepo;
 import com.nawaz2000.petshop.dao.UserRepo;
 import com.nawaz2000.petshop.entity.Cart;
+import com.nawaz2000.petshop.entity.Orders;
 import com.nawaz2000.petshop.entity.Product;
 import com.nawaz2000.petshop.entity.User;
 import com.nawaz2000.petshop.service.UserCartProducts;
+import com.nawaz2000.petshop.service.UserOrder;
 
 @Controller
 public class HomeController {
@@ -55,6 +58,10 @@ public class HomeController {
 	@Autowired
 	@Qualifier("cartRepo")
 	private CartRepo cartRepo;
+	
+	@Autowired
+	@Qualifier("ordersRepo")
+	private OrdersRepo ordersRepo;
 	
 	public void addToModel() {
 		
@@ -175,7 +182,20 @@ public class HomeController {
 	}
 	
 	@GetMapping("/orders")
-	public String getOrders() {
+	public String getOrders(Model model) {
+		List<Orders> currUserOrders = ordersRepo.findByProfileId(currUserId);
+		System.out.println("------------> CurrUserId: " + currUserId);
+		
+		List<UserOrder> orders = new ArrayList<>();
+		
+		for (Orders o : currUserOrders) {
+			System.out.println(o);
+			Product p = productRepo.findById(o.getProductId()).get();
+			orders.add(new UserOrder(p.getName(), p.getImage(), o.getPrice(), o.getPayment(), o.getStatus()));
+		}
+				
+		model.addAttribute("userOrders", orders);
+		
 		return "orders";
 	}
 	
