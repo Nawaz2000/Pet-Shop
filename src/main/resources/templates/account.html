@@ -8,14 +8,6 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!--<?php 
-    session_start(); 
-    if(isset($_SESSION['user'])==''){
-        echo '<script type="text/javascript">
-                location.replace("index.php");
-            </script>';
-    }
-    ?>-->
     <!-- Favicons -->
     <link rel="shortcut icon" href="#">
     <link rel="apple-touch-icon" href="#">
@@ -41,16 +33,7 @@
 <body>
     <div class="wrapper" id="wrapper">
         <!-- Header -->
-        <!--<?php 
-
-            if(isset($_GET['logout'])){
-                unset($_SESSION['user']);
-                echo '<script type="text/javascript">
-                    location.replace("index.php");
-                </script>';
-            }
         
-        ?>-->
         <header id="wn__header" class="header__area header__absolute sticky__header">
             <div class="container-fluid">
                 <div class="row">
@@ -229,33 +212,36 @@
 						<div class="blog-details content">
 							<div class="comment_respond">
 								<h3 class="reply_title">Profile Details</h3>
-								<form class="comment__form" action="account.php" method='post'>
+								<form class="comment__form" th:action="@{/account}" method='post'>
 									<div class="input__wrapper clearfix">
-                                        <input type='hidden' value="<?php if($userinfo){echo $userinfo['id'];} ?>" name='pid'>
+                                        <input type='hidden' th:value="${session.user.id}" name='id' >
+                                        <input type='hidden' th:value="${session.user.password}" name='password' >
+                                        <input type='hidden' th:value="${session.user.role}" name='role' >
+                                        <input type='hidden' th:value="${session.user.username}" name='username' >
 										<div class="input__box name one--third">
 											<label>First Name</label>
-											<input type="text" name='first' value="<?php if($userinfo){echo $userinfo['fname'];} ?>" >
+											<input type="text" name='fName' th:value="${session.user.fName}">
 										</div>
 
                                         <div class="input__box name one--third">
 											<label>Last Name</label>
-											<input type="text"  name='last' value="<?php if($userinfo){echo $userinfo['lname'];} ?>" >
+											<input type="text"  name='lName' th:value="${session.user.lName}">
 										</div>
                                         <div class="input__box name one--third">
 											<label>Email</label>
-											<input type="email"  name='email' value="<?php if($userinfo){echo $userinfo['email'];} ?>" >
+											<input type="email"  name='email' th:value="${session.user.email}">
 										</div>
 										<div class="input__box website one--third">
 											<label>Phone</label>
-											<input type="text"   name='phone' value="<?php if($userinfo){echo $userinfo['phone'];} ?>">
+											<input type="text"   name='phone' th:value="${session.user.phone}">
 										</div>
                                         <div class="input__box website one--third">
 											<label>Gender</label>
-											<input type="text"  name='gender' value="<?php if($userinfo){echo $userinfo['gender'];} ?>">
+											<input type="text"  name='gender' th:value="${session.user.gender}">
 										</div>
                                         <div class="input__box website one--third">
 											<label>Date of Birth</label>
-											<input type="date"  name='dob' value="<?php if($userinfo){echo $userinfo['dob'];} ?>" >
+											<input type="date"  name='dob' th:value="${session.user.dob}">
 										</div>
                                         <br>
 									</div>

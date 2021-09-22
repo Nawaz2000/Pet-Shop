@@ -162,8 +162,16 @@ public class HomeController {
 	}
 	
 	@GetMapping("/account")
-	public String getAccount() {
+	public String getAccount(Model model) {
+//		model.addAttribute("user", new User());
 		return "account";
+	}
+	
+	@PostMapping("/account")
+	public String updateAccount(Model model, @ModelAttribute User user) {
+		System.out.println("---------------->Retrieved user: " + user);
+		userRepo.save(user);
+		return "index";
 	}
 	
 	@GetMapping("/orders")
