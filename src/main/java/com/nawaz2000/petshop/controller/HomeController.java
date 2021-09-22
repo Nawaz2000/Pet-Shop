@@ -29,11 +29,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.nawaz2000.petshop.dao.CartRepo;
+import com.nawaz2000.petshop.dao.ContactUsRepo;
 import com.nawaz2000.petshop.dao.OrdersRepo;
 import com.nawaz2000.petshop.dao.ProductRepo;
 import com.nawaz2000.petshop.dao.UserRepo;
 import com.nawaz2000.petshop.dao.VetFinderRepo;
 import com.nawaz2000.petshop.entity.Cart;
+import com.nawaz2000.petshop.entity.ContactUs;
 import com.nawaz2000.petshop.entity.Orders;
 import com.nawaz2000.petshop.entity.Product;
 import com.nawaz2000.petshop.entity.User;
@@ -71,6 +73,10 @@ public class HomeController {
 	@Autowired
 	@Qualifier("ordersRepo")
 	private OrdersRepo ordersRepo;
+	
+	@Autowired
+	@Qualifier("contactUsRepo")
+	private ContactUsRepo contactUsRepo;
 	
 	public void addToModel() {
 		
@@ -131,6 +137,13 @@ public class HomeController {
 			return "redirect:/admin";
 		
 		return "index";
+	}
+	
+	@GetMapping("/enquire")
+	public String getEnquiryPage(Model model) {
+		List<ContactUs> contactUsList = contactUsRepo.findAll();
+		model.addAttribute("contactUsList", contactUsList);
+		return "enquire";
 	}
 	
 	@GetMapping("/addvetfinder")

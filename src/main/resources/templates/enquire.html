@@ -19,14 +19,7 @@
 
     <!-- Latest compiled JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <!--<?php 
-    session_start(); 
-    if(isset($_SESSION['admin'])==''){
-        echo '<script type="text/javascript">
-                location.replace("index.php");
-            </script>';
-    }
-    ?>-->
+    
     <title>Enquires </title>
 </head>
 
@@ -34,16 +27,7 @@
 
 
 <body>
-    <!--<?php 
-
-    if(isset($_GET['logout'])){
-        unset($_SESSION['admin']);
-        echo '<script type="text/javascript">
-            location.replace("index.php");
-        </script>';
-    }
-
-    ?>-->
+    
     <!-- nav bar + logo -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="#">Admin Panel</a>
@@ -74,17 +58,7 @@
 
             <div class="col mt-3 justify-content-right">
 
-            <!--<?php 
-                require_once 'db.php';
-                $conn = new mysqli($hn,$un,$pw,$db); 
-                if ($conn ->connect_error) die ($conn->connect_error);
-
-                $q = 'select * from contactus';
-                $result = $conn -> query ($q);
-
-                if (!$result) die ("No record found!!");
-               
-                ?>-->
+            
             <div class="col-xl-12 mt-5 justify-content-right">
                 <table class="table">
                     <thead class="thead-light">
@@ -96,23 +70,18 @@
                             <th scope="col">Message</th>
                         </tr>
                     </thead>
+                    
+                    <div th:each="csl: ${contactUsList}">
                     <tbody>
-                        <!--<?php 
-
-                            if($result){
-                                while($data=$result->fetch_array()){
-                                    echo '<tr>
-                                        <td>'.$data['fname'].'</td>
-                                        <td>'.$data['lname'].'</td>
-                                        <td>'.$data['email'].'</td>
-                                        <td>'.$data['subject'].'</td>
-                                        <td>'.$data['msg'].'</td>                                    
-                                    </tr>';
-                                }
-                            }
-
-                        ?>-->
-                        
+                                    
+                                    <tr>
+                                        <td th:text="${csl.fName}"></td>
+                                        <td th:text="${csl.lName}"></td>
+                                        <td th:text="${csl.email}"></td>
+                                        <td th:text="${csl.subject}"></td>
+                                        <td th:text="${csl.msg}"></td>                                    
+                                    </tr>
+                     
 
                     </tbody>
                 </table>
