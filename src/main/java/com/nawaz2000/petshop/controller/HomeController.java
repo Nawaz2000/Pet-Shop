@@ -189,17 +189,11 @@ public class HomeController {
 		
 		System.out.println("-----------------newVetFinder" + vetFinder);
 		
-
-//        String uploadDir = "";
-//        System.out.println("------------------>Upload directory:" + uploadDir);
- 
-//        FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
-		
 		
 		StringBuilder fileNames = new StringBuilder();
-		 Path fileNameAndPath = Paths.get(uploadDirectory, multipartFile.getOriginalFilename());
-		  fileNames.append(multipartFile.getOriginalFilename()+" ");
-		  try {
+		Path fileNameAndPath = Paths.get(uploadDirectory, multipartFile.getOriginalFilename());
+		fileNames.append(multipartFile.getOriginalFilename()+" ");
+		try {
 			Files.write(fileNameAndPath, multipartFile.getBytes());
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -242,6 +236,15 @@ public class HomeController {
 		System.out.println("\n\n----------->Obtained product: " + product);
 		
 		productRepo.save(product);
+		
+		StringBuilder fileNames = new StringBuilder();
+		Path fileNameAndPath = Paths.get(uploadDirectory, multipartFile.getOriginalFilename());
+		fileNames.append(multipartFile.getOriginalFilename()+" ");
+		try {
+			Files.write(fileNameAndPath, multipartFile.getBytes());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
 		return "redirect:/admin";
 	}
