@@ -61,7 +61,7 @@
 
                 <form th:action="@{/admin}" method="post" enctype="multipart/form-data" th:object="${product}">
                     <div class="form-row">
-                        <!-- <input type='hidden' name="proid" value="<?php if($updateinfo){echo $updateinfo['id'];} ?>"> -->
+                        <input type='hidden' name="id" th:value="${updateProduct.id}">
                         <div class="col-md-4 mb-3">
                             <label for="validationCustom01">Product </label>
                             <input type="text" name='name' th:value="${updateProduct.name}" class="form-control" id="validationCustom01" placeholder="Product name"

@@ -133,16 +133,56 @@ public class HomeController {
 		return "index";
 	}
 	
+	@GetMapping("/addvetfinder")
+	public String showVet(Model model) {
+		List<VetFinder> vetFinderList = vetRepo.findAll();
+		model.addAttribute("vetList", vetFinderList);
+		model.addAttribute("vetFinder", new VetFinder());
+		return "addvetfinder";
+	}
+	
+	@GetMapping("/updateVet")
+	public String updateVet(@RequestParam(name = "param") String param, Model model) {
+		VetFinder vetFinder = vetRepo.findById(Integer.parseInt(param)).get();
+		
+		model.addAttribute("updateVet", vetFinder);
+		return "vet-update";
+	}
+	
+	@PostMapping("/addvetfinder")
+	public String addVet(@RequestParam("pic") MultipartFile multipartFile,
+						@RequestParam("name") String name,
+						@RequestParam("id") String id,
+						@RequestParam("email") String email,
+						@RequestParam("phone") String phone,
+						@RequestParam("address") String address,
+						@RequestParam("note") String note) {
+		
+		String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+		fileName = "images/uploads/" + fileName;
+		
+		VetFinder vetFinder = new VetFinder(name, email, phone, address, note, fileName);
+		vetFinder.setId(Integer.parseInt(id));
+		
+		vetRepo.save(vetFinder);
+		System.out.println("-----------------newVetFinder" + vetFinder);
+		
+		return "redirect:/addvetfinder";
+	}
+	
+	@GetMapping("/removeVet")
+	public String removeVet(@RequestParam(name = "param") String param, Model model) {
+		VetFinder vetFinder = vetRepo.findById(Integer.parseInt(param)).get();
+		vetRepo.delete(vetFinder);
+		return "redirect:/addvetfinder";
+	}
+	
 	@GetMapping("/admin")
 	public String showAdminPage(Model model, @RequestParam(name = "param", required = false) String param) {
 		List<Product> products = productRepo.findAll();
 		for (Product p : products)
 			System.out.println(p);
 		model.addAttribute("allProducts", products);
-
-//		if (param != null) {
-//			if (param.equals(""))
-//		}
 		
 		return "admin";
 	}
@@ -150,6 +190,7 @@ public class HomeController {
 	@PostMapping("/admin")
 	public String addProduct(@RequestParam("image") MultipartFile multipartFile,
 							@RequestParam("name") String name,
+							@RequestParam("id") String id,
 							@RequestParam("category") String category,
 							@RequestParam("descrip") String descrip,
 							@RequestParam("price") String price) {
@@ -159,6 +200,7 @@ public class HomeController {
 		System.out.println("---------------> Image name: " + fileName);
 		
 		Product product = new Product(name, category, fileName, descrip, Float.parseFloat(price));
+		product.setId(Integer.parseInt(id));
 		System.out.println("\n\n----------->Obtained product: " + product);
 		
 		productRepo.save(product);

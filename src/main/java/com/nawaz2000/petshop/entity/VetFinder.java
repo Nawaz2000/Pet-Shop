@@ -103,6 +103,12 @@ public class VetFinder {
 	public void setImage(String image) {
 		this.image = image;
 	}
+
+	@Override
+	public String toString() {
+		return "VetFinder [id=" + id + ", name=" + name + ", email=" + email + ", phone=" + phone + ", address="
+				+ address + ", note=" + note + ", image=" + image + "]";
+	}
 	
 	
 }

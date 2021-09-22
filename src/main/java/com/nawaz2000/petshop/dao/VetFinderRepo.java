@@ -7,5 +7,7 @@ import com.nawaz2000.petshop.entity.VetFinder;
 
 @Repository("vetFinderRepo")
 public interface VetFinderRepo extends JpaRepository<VetFinder, Integer> {
-
+	
+	public VetFinder findByEmail(String email);
+	
 }
