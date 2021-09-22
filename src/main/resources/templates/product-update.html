@@ -64,12 +64,12 @@
                         <!-- <input type='hidden' name="proid" value="<?php if($updateinfo){echo $updateinfo['id'];} ?>"> -->
                         <div class="col-md-4 mb-3">
                             <label for="validationCustom01">Product </label>
-                            <input type="text" name='name' class="form-control" id="validationCustom01" placeholder="Product name"
+                            <input type="text" name='name' th:value="${updateProduct.name}" class="form-control" id="validationCustom01" placeholder="Product name"
                                  required>
                         </div>
                         <div class="col-md-4 mb-3">
                             <label for="validationCustom02">Category</label>
-                            <select class="custom-select" name='category' required id="inputGroupSelect01">
+                            <select class="custom-select" th:value="${updateProduct.category}" name='category' required id="inputGroupSelect01">
                                 <option selected value=''>Choose...</option>
                                 <option value="dog">Dog</option>
                                 <option value="cat">Cat</option>
@@ -79,11 +79,11 @@
                         </div>
                         <div class="col-md-2 mb-3">
                             <label for="validationCustom03">Cover pic</label>
-                            <input type="file" name='image' class="form-control" accept="image/png, image/jpeg, image/jpg" id="validationCustom03" placeholder="Cover image" >
+                            <input type="file" name='image' th:value="${updateProduct.image}" class="form-control" accept="image/png, image/jpeg, image/jpg" id="validationCustom03" placeholder="Cover image" >
                         </div>
                         <div class="col-md-2 mb-3">
                             <label for="validationCustom02">Price</label>
-                            <input type="text" name='price' class="form-control" id="validationCustom02" placeholder="Price"
+                            <input type="text" name='price' th:value="${updateProduct.price}" class="form-control" id="validationCustom02" placeholder="Price"
                                  required>
                         </div>
                         
@@ -93,7 +93,7 @@
                         
                         <div class="col-md-10 mb-3">
                             <label for="validationCustom02">Description</label>
-                            <textarea class="form-control"  name='descrip' id="exampleFormControlTextarea1" rows="3"></textarea>
+                            <textarea class="form-control" th:text="${updateProduct.descrip}" name='descrip' id="exampleFormControlTextarea1" rows="3"></textarea>
                         </div>
 
 
@@ -102,39 +102,6 @@
                     <button type="submit" name="submit" class="btn btn-primary">Submit</button>
 
                 </form>
-            </div>
-
-            <div class="col-xl-12 mt-5 justify-content-right">
-                <table class="table">
-                    <thead class="thead-light">
-                        <tr>
-                            <th scope="col"></th>
-                            <th scope="col">Product</th>
-                            <th scope="col">Category</th>
-                            <th scope="col">Price</th>
-                            <th scope="col"></th>
-                            <th scope="col"></th>
-                        </tr>
-                    </thead>
-                    <div th:each="product: ${allProducts}">
-                    <tbody>
-                    
-                                   
-                                    <tr>
-                                        <td><img th:src="${product.image}" width="100px" height="100px" ></td>
-                                        <td><p th:text="${product.name}"></p></td>
-                                        <td><p th:text="${product.category}"></p></td>
-                                        <td><p th:text="${product.price}"></p></td>
-                                        <td><a th:href="@{/removeProduct(param= ${product.id})}"><button type="button" class="btn btn-danger">Remove</button></a></td>
-                                        <td><a th:href="@{/updateProduct(param= ${product.id})}"><button type="button" class="btn btn-info">Update</button></a></td>
-                                    
-                                    </tr>
-                                   
-
-
-                    </tbody>
-                    </div>
-                </table>
             </div>
 
         </div>

@@ -17,6 +17,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.nawaz2000.petshop.dao.CartRepo;
 import com.nawaz2000.petshop.dao.OrdersRepo;
@@ -89,6 +91,7 @@ public class HomeController {
 		System.out.println("---------------------------> currUser: " + currUsername);
 		
 		if (!currUsername.equals("anonymousUser")) {
+			
 			User currUser = userRepo.findByUsername(currUsername).get();
 			System.out.println("----------------------------> CurrUser id: " + currUser.getId());
 			
@@ -123,8 +126,53 @@ public class HomeController {
 		for (Product p : popularProduct)
 			System.out.println(p);
 		model.addAttribute("popularProduct", popularProduct);
-	
+		
+		if (currUsername.equals("admin"))
+			return "redirect:/admin";
+		
 		return "index";
+	}
+	
+	@GetMapping("/admin")
+	public String showAdminPage(Model model, @RequestParam(name = "param", required = false) String param) {
+		List<Product> products = productRepo.findAll();
+		for (Product p : products)
+			System.out.println(p);
+		model.addAttribute("allProducts", products);
+
+//		if (param != null) {
+//			if (param.equals(""))
+//		}
+		
+		return "admin";
+	}
+	
+	@PostMapping("/admin")
+	public String addProduct(@RequestParam("image") MultipartFile multipartFile,
+							@RequestParam("name") String name,
+							@RequestParam("category") String category,
+							@RequestParam("descrip") String descrip,
+							@RequestParam("price") String price) {
+//		System.out.println(product);
+		String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+		fileName = "images/uploads/" + fileName;
+		System.out.println("---------------> Image name: " + fileName);
+		
+		Product product = new Product(name, category, fileName, descrip, Float.parseFloat(price));
+		System.out.println("\n\n----------->Obtained product: " + product);
+		
+		productRepo.save(product);
+		
+		return "redirect:/admin";
+	}
+	
+	@GetMapping("/updateProduct")
+	public String showUpdateProductPage(@RequestParam(name = "param") String param, Model model) {
+		
+		Product product = productRepo.findById(Integer.parseInt(param)).get();
+		model.addAttribute("updateProduct", product);
+		
+		return "product-update";
 	}
 	
 	@GetMapping("/singleproduct{id}")
