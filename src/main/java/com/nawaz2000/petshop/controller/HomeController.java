@@ -175,6 +175,14 @@ public class HomeController {
 		return "product-update";
 	}
 	
+	@GetMapping("/removeProduct")
+	public String deleteProduct(@RequestParam(name = "param") String param, Model model) {
+		Product product = productRepo.findById(Integer.parseInt(param)).get();
+		System.out.println("-------------> Product to be deleted: " + product);
+		productRepo.delete(product);
+		return "redirect:/admin";
+	}
+	
 	@GetMapping("/singleproduct{id}")
 	public String showSingleProduct(@PathParam("id") String id, Model model) {
 		System.out.println("-------------------> id: " + id);
