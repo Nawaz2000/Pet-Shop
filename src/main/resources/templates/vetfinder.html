@@ -6,7 +6,6 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>Vet Finder</title>
     <meta name="description" content="">
-    <?php session_start(); $msg_add_cart='';?>
 
     <!-- Favicons -->
     <link rel="shortcut icon" href="#">
@@ -34,16 +33,7 @@
 <body>
     <div class="wrapper" id="wrapper">
         <!-- Header -->
-        <!--<?php 
-
-        if(isset($_GET['logout'])){
-            unset($_SESSION['user']);
-            echo '<script type="text/javascript">
-                location.replace("index.php");
-            </script>';
-        }
-
-        ?>-->
+        
         <header id="wn__header" class="header__area header__absolute sticky__header">
             <div class="container-fluid">
                 <div class="row">
@@ -206,41 +196,30 @@
         	<div class="container">
         		<div class="row">
         			<div class="col-lg-9 col-12">
-                        <!--<?php 
-                            require_once 'db.php';
-                            $conn = new mysqli($hn,$un,$pw,$db); 
-                            if ($conn ->connect_error) die ($conn->connect_error);
-                    
-                            $vetlist = $conn->query("SELECT * FROM vetfinder");
-
-                            if($vetlist){
-                                while($data=$vetlist->fetch_array()){
-                                    echo '<div class="blog-page">
+                        
+                                <div th:each="vet: ${vetList}">    
+                                    <div class="blog-page">
                                         <article class="blog__post d-flex flex-wrap">
                                             <div class="thumb">
-                                                <a href="blog-details.php">
-                                                    <img src="'.$data['image'].'" alt="blog images">
+                                                <a th:href="@{/blog-details}">
+                                                    <img th:src="${vet.image}" alt="blog images">
                                                 </a>
                                             </div>
                                             <div class="content">
-                                                <h4><a href="#">'.$data['name'].'</a></h4>
+                                                <h4><a href="#"><h6 th:text="${vet.name}"></h6></a></h4>
                                                 
-                                                <p>'.$data['note'].'</p>
+                                                <p th:text="${vet.note}"></p>
                                                 <div class="single__address">
                                                     <div class="content">
-                                                        <p><span>Address: </span> '.$data['address'].'</p>
-                                                        <p><span>Phone: </span> '.$data['phone'].'</p>
-                                                        <p><span>Email: </span> '.$data['email'].'</p>
+                                                        <p><span><h6>Address:</h6> </span><p th:text="${vet.address}"></p>  </p>
+                                                        <p><span><h6>Phone:</h6> </span><p th:text="${vet.phone}"></p></p>
+                                                        <p><span><h6>Email:</h6> </span><p th:text="${vet.email}"></p></p>
                                                     </div>
                                                 </div>
                                             </div>
                                         </article>
-                                    </div>';
-                                    
-                                }
-                            }
-
-                        ?>-->
+                                    </div>
+                               </div>
         				
         			</div>
         		</div>

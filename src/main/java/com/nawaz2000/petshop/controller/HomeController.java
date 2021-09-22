@@ -30,10 +30,12 @@ import com.nawaz2000.petshop.dao.CartRepo;
 import com.nawaz2000.petshop.dao.OrdersRepo;
 import com.nawaz2000.petshop.dao.ProductRepo;
 import com.nawaz2000.petshop.dao.UserRepo;
+import com.nawaz2000.petshop.dao.VetFinderRepo;
 import com.nawaz2000.petshop.entity.Cart;
 import com.nawaz2000.petshop.entity.Orders;
 import com.nawaz2000.petshop.entity.Product;
 import com.nawaz2000.petshop.entity.User;
+import com.nawaz2000.petshop.entity.VetFinder;
 import com.nawaz2000.petshop.service.UserCartProducts;
 import com.nawaz2000.petshop.service.UserOrder;
 
@@ -42,10 +44,15 @@ public class HomeController {
 	
 	private static int currUserId;
 	private static User pUser;
+	private ArrayList<UserCartProducts> userCartProducts;
 	
 	public int getCurrUserId() {
 		return currUserId;
 	}
+	
+	@Autowired
+	@Qualifier("vetFinderRepo")
+	private VetFinderRepo vetRepo;
 	
 	@Autowired
 	@Qualifier("productRepo")
@@ -90,23 +97,23 @@ public class HomeController {
 			currUserId = currUser.getId();
 			pUser = currUser;
 			
-			List<Cart> currUserCart = cartRepo.findByUserId(currUser.getId());
+			userCartProducts = new ArrayList<>();
 			
-			ArrayList<UserCartProducts> userCartProducts = new ArrayList<>();
+			List<Cart> currUserCart = cartRepo.findByUserId(currUser.getId());
 			
 			for (Cart c : currUserCart) {
 				Product currProduct = productRepo.findById(c.getProductId()).get();
-				userCartProducts.add(new UserCartProducts(c.getProductId(), c.getUserId(), c.getPrice(), c.getQuantity(), currProduct.getImage(), currProduct.getName()));
+				this.userCartProducts.add(new UserCartProducts(c.getProductId(), c.getUserId(), c.getPrice(), c.getQuantity(), currProduct.getImage(), currProduct.getName()));
 			}
 			
 			float totalPrice = 0;
 			
-			for (UserCartProducts u : userCartProducts) {
+			for (UserCartProducts u : this.userCartProducts) {
 				totalPrice += u.getPrice()*u.getQuantity();
 //				System.out.println(u);
 			}
 			
-			model.addAttribute("userCartProducts", userCartProducts);
+			model.addAttribute("userCartProducts", this.userCartProducts);
 			model.addAttribute("totalPrice", totalPrice);
 			System.out.println("------------>Total price: " + totalPrice);
 			
@@ -164,13 +171,16 @@ public class HomeController {
 	}
 	
 	@GetMapping("/vetfinder")
-	public String getVetFinder() {
+	public String getVetFinder(Model model) {
+		
+		List<VetFinder> vetFinder = vetRepo.findAll();
+		model.addAttribute("vetList", vetFinder);
 		return "vetfinder";
 	}
 	
 	@GetMapping("/account")
 	public String getAccount(Model model) {
-//		model.addAttribute("user", new User());
+		model.addAttribute("userCartProducts", userCartProducts);
 		return "account";
 	}
 	
@@ -193,7 +203,8 @@ public class HomeController {
 			Product p = productRepo.findById(o.getProductId()).get();
 			orders.add(new UserOrder(p.getName(), p.getImage(), o.getPrice(), o.getPayment(), o.getStatus()));
 		}
-				
+		
+		model.addAttribute("userCartProducts", userCartProducts);
 		model.addAttribute("userOrders", orders);
 		
 		return "orders";
