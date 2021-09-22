@@ -60,7 +60,7 @@
 
                 <form th:action="@{/addvetfinder}" method="post" enctype="multipart/form-data" th:object="${vetFinder}">
                     <div class="form-row">
-                        
+                        <input type="hidden" name="id" th:value="${vetFinder.id}">
                         <div class="col-md-4 mb-3">
                             <label for="validationCustom01">Name </label>
                             <input type="text" name='name' th:field="*{name}" class="form-control" id="validationCustom01" placeholder="Name"
@@ -101,12 +101,9 @@
 
 
                     </div>
-        
-                    <?php if ($update == true):?>
-                    <button type="submit" name="update" class="btn btn-primary">Update</button>
-                    <?php else: ?>
+
                     <button type="submit" name="submit" class="btn btn-primary">Submit</button>
-                    <?php endif; ?>
+                    
                 </form>
             </div>
 

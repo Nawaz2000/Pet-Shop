@@ -166,93 +166,7 @@
                 </div>
             </div>
         </div>
-        <!--<?php
-			require_once 'db.php';
-			$conn = new mysqli($hn,$un,$pw,$db); 
-			if ($conn ->connect_error) die ($conn->connect_error);
-			$userinfo = '';
-			$cartlist = '';
 
-
-			if(isset($_POST['checkout'])){
-				$firstname = $_POST['firstn'];
-				$lastname = $_POST['lastn'];
-				$phone = $_POST['phone'];
-				$country = $_POST['country'];
-				$district = $_POST['district'];
-				$postcode = $_POST['postcode'];
-				$firstname = $_POST['firstn'];
-				$address1 = $_POST['address1'];
-				$address2 = $_POST['address2'];
-                $pay = $_POST['pay'];
-				$user = $_SESSION['user'];
-				
-				$check_profile = $conn->query("SELECT * from user WHERE id=$user");
-				$profile_id = '';
-                if($check_profile->num_rows > 0){
-                    $profile = $check_profile->fetch_array();
-					$profile_id = $profile['id'];
-                    $userinfo = "UPDATE  user SET fname='$firstname',lname='$lastname',phone='$phone' WHERE id='$profile_id' ";
-					$r = $conn->query($userinfo); 
-					if (!$r) die ($conn->error);
-                }
-
-
-				if($profile_id){
-					$address = $address1.', '.$address2;
-
-					$check_cart = $conn->query("SELECT * from cart WHERE user_id=$user");
-	
-					if($check_cart){
-						
-						while($data=$check_cart->fetch_array()){
-							$productid = $data['product_id'];
-							$price = $data['price'];
-							$qty= $data['quantity'];
-							$q = "INSERT INTO orders (profile_id,product_id,price,qty,country,district,postcode,address,status,payment) VALUES ('$profile_id','$productid','$price','$qty','$country','$district','$postcode','$address','Pending','$pay')";
-							$rs = $conn->query($q);
-							if (!$rs) die ($conn->error);
-							$cartid = $data['id'];
-							$remove_r = $conn->query("DELETE from cart WHERE id=$cartid"); 
-							if (!$remove_r) die ($conn->error);
-						}
-	
-					}
-
-
-					
-
-					echo '<script type="text/javascript">
-						location.replace("index.php");
-					</script>';
-				}
-
-
-
-				
-
-
-
-
-			}
-
-
-
-
-
-
-			if(isset($_SESSION['user'])){
-				$user = $_SESSION['user'];
-				$q = $conn->query("SELECT * from user WHERE id=$user");
-				$userinfo = $q->fetch_array();
-
-				$cartlist = $conn->query("SELECT * from cart WHERE user_id=$user");
-                if(!$cartlist) die ($conn->error);
-
-			}
-
-
-		?>-->
 
 
         <section class="wn__checkout__area section-padding--lg bg__white">
@@ -261,25 +175,26 @@
         			<div class="col-lg-6 col-12">
         				<div class="customer_details">
         					<h3>Billing details</h3>
-							<form action="checkout.php" method="POST" >
+        					
+							<form >
 								<div class="customar__field">
 									<div class="margin_between">
 										<div class="input_box space_between">
 											<label>First name <span>*</span></label>
-											<input type="text" required name='firstn' th:value="${session.user.fName}">
+											<input type="text" required name='fName'  th:value="${session.user.fName}">
 										</div>
 										<div class="input_box space_between">
 											<label>last name <span>*</span></label>
-											<input type="text" required name='lastn' th:value="${session.user.lName}">
+											<input type="text" required name='lName' th:value="${session.user.lName}">
 										</div>
 									</div>
 									<div class="input_box">
 										<label>Phone number <span>*</span></label>
-										<input type="text" required name='phone' th:value="${session.user.phone}">
+										<input type="text" required name='phone'  th:value="${session.user.phone}">
 									</div>
 									<div class="input_box">
 										<label>Country<span>*</span></label>
-										<select class="select__option" name='country' required>
+										<select class="select__option" name='country'  required>
 											<option value=''>Select a country…</option>
 											<option value="india">India</option>
 											<option value='usa'>USA</option>
@@ -289,18 +204,18 @@
 									</div>
 									<div class="input_box">
 										<label>District <span>*</span></label>
-										<input type="text" required placeholder="	" name='district'>
+										<input type="text" required placeholder="	" name='district' >
 									</div>
 									<div class="input_box">
 										<label>Postcode / ZIP <span>*</span></label>
-										<input type="text" required name='postcode'>
+										<input type="text"  required name='postCode'>
 									</div>
 									<div class="input_box">
 										<label>Address <span>*</span></label>
-										<input type="text" required name='address1' placeholder="Street address">
+										<input type="text" required name='address'  placeholder="Street address">
 									</div>
 									<div class="input_box">
-										<input type="text" required name='address2' placeholder="Apartment, suite, unit etc. (optional)">
+										<input type="text" name='address2' placeholder="Apartment, suite, unit etc. (optional)">
 									</div>
 									
 									

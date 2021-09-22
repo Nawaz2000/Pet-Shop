@@ -196,7 +196,7 @@ public class HomeController {
 		for (Product p : products)
 			System.out.println(p);
 		model.addAttribute("allProducts", products);
-		
+		model.addAttribute("product", new Product());
 		return "admin";
 	}
 	
@@ -271,9 +271,19 @@ public class HomeController {
 		
 		model.addAttribute("userCartProducts", userCartProducts);
 		model.addAttribute("totalPrice", totalPrice);
+		model.addAttribute("orders", new Orders());
 		System.out.println("------------>Total price: " + totalPrice);
 		
 		return "checkout";
+	}
+	
+	@PostMapping("/checkout")
+	public String checkOut(@ModelAttribute Orders orders) {
+		System.out.println("---------------> Checkout");
+		System.out.println(orders);
+//		ordersRepo.save(orders);
+		
+		return "index";
 	}
 	
 	@GetMapping("/contactus")
