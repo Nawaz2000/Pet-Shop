@@ -1,5 +1,9 @@
 package com.nawaz2000.petshop.controller;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +44,7 @@ import com.nawaz2000.petshop.entity.Orders;
 import com.nawaz2000.petshop.entity.Product;
 import com.nawaz2000.petshop.entity.User;
 import com.nawaz2000.petshop.entity.VetFinder;
+import com.nawaz2000.petshop.service.FileUploadUtil;
 import com.nawaz2000.petshop.service.UserCartProducts;
 import com.nawaz2000.petshop.service.UserOrder;
 
@@ -49,6 +54,7 @@ public class HomeController {
 	private static int currUserId;
 	private static User pUser;
 	private ArrayList<UserCartProducts> userCartProducts;
+	public static String uploadDirectory = System.getProperty("user.dir")+"/src/main/resources/static/images/uploads";
 	
 	public int getCurrUserId() {
 		return currUserId;
@@ -169,16 +175,35 @@ public class HomeController {
 						@RequestParam("email") String email,
 						@RequestParam("phone") String phone,
 						@RequestParam("address") String address,
-						@RequestParam("note") String note) {
+						@RequestParam("note") String note) throws IOException {
+		
+		
+		
 		
 		String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
 		fileName = "images/uploads/" + fileName;
-		
+//		
 		VetFinder vetFinder = new VetFinder(name, email, phone, address, note, fileName);
 		vetFinder.setId(Integer.parseInt(id));
-		
 		vetRepo.save(vetFinder);
+		
 		System.out.println("-----------------newVetFinder" + vetFinder);
+		
+
+//        String uploadDir = "";
+//        System.out.println("------------------>Upload directory:" + uploadDir);
+ 
+//        FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
+		
+		
+		StringBuilder fileNames = new StringBuilder();
+		 Path fileNameAndPath = Paths.get(uploadDirectory, multipartFile.getOriginalFilename());
+		  fileNames.append(multipartFile.getOriginalFilename()+" ");
+		  try {
+			Files.write(fileNameAndPath, multipartFile.getBytes());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
 		return "redirect:/addvetfinder";
 	}
