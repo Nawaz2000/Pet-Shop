@@ -134,7 +134,7 @@
                                                             </div>
                                                             <div class="content">
                                                                  <h6><a href="#"><h4 th:text="${ucp.name}"></h4> </a></h6>
-                                                                    <span class="prize" th:text=" ${'$ ' + ucp.price}"></span>
+                                                                    <span class="prize" th:text=" ${'$ ' + ucp.price*ucp.quantity}"></span>
                                                                       <div class="product_prize d-flex justify-content-between">
                                                                           <span class="qun">Qty: <h4 th:text="${ucp.quantity}"></h4> </span>
                                                                             
