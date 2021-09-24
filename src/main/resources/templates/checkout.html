@@ -178,27 +178,27 @@
         					<h3>Billing details</h3>
         					
         					<form th:action="@{/checkout}" th:object="${userCartOrders}">
-								<input type="hidden" name='profileId' th:field="*{profileId}" th:value="${session.user.id}">
+								<input type="hidden" name='profileId' th:value="${session.user.id}">
 							
 							
 								<div class="customar__field">
 									<div class="margin_between">
 										<div class="input_box space_between">
 											<label>First name <span>*</span></label>
-											<input type="text" required name='fName' th:field="*{fName}"  th:value="${session.user.fName}">
+											<input type="text" required name='fName'  th:value="${session.user.fName}">
 										</div>
 										<div class="input_box space_between">
 											<label>last name <span>*</span></label>
-											<input type="text" required name='lName' th:field="*{lName}" th:value="${session.user.lName}">
+											<input type="text" required name='lName' th:value="${session.user.lName}">
 										</div>
 									</div>
 									<div class="input_box">
 										<label>Phone number <span>*</span></label>
-										<input type="text" required name='phone' th:field="*{phone}" th:value="${session.user.phone}">
+										<input type="text" required name='phone' th:value="${session.user.phone}">
 									</div>
 									<div class="input_box">
 										<label>Country<span>*</span></label>
-										<select class="select__option" name='country' th:field="*{country}" required>
+										<select class="select__option" name='country' required>
 											<option value=''>Select a country…</option>
 											<option value="india">India</option>
 											<option value='usa'>USA</option>
@@ -208,15 +208,15 @@
 									</div>
 									<div class="input_box">
 										<label>District <span>*</span></label>
-										<input type="text" required placeholder="	" name='district' th:field="*{district}">
+										<input type="text" required placeholder="	" name='district'>
 									</div>
 									<div class="input_box">
 										<label>Postcode / ZIP <span>*</span></label>
-										<input type="text"  required name='postCode' th:field="*{postCode}">
+										<input type="text"  required name='postCode'>
 									</div>
 									<div class="input_box">
 										<label>Address <span>*</span></label>
-										<input type="text" required name='address' th:field="*{address}" placeholder="Street address">
+										<input type="text" required name='address' placeholder="Street address">
 									</div>
 									<div class="input_box">
 										<input type="text" name='address2' placeholder="Apartment, suite, unit etc. (optional)">
@@ -250,7 +250,7 @@
 								<input type="hidden" name='qty'  th:value="${ucp.quantity}">
 								
 								<div th:each="pId : ${userCartOrders.productId}">
-									<input type="hidden" name='productId' th:field="*{}" th:value="${ucp.productId}">
+									<input type="hidden" name='productId' th:value="${ucp.productId}">
 								</div>
 								
         						<ul class="order_product">			
@@ -259,7 +259,7 @@
         						</ul>
         						</div>
         						<ul class="total__amount"><h3></h3>
-        							<li>Order Total<span> <h6 th:text="${totalPrice}"></h6></span></li>
+        							<li>Order Total<span> <h6 th:text="${'$ ' + totalPrice}"></h6></span></li>
         						</ul>
         					</div>
                         	<div id="accordion" class="checkout_accordion mt--30" role="tablist">
