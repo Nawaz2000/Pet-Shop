@@ -35,16 +35,7 @@
 <body>
     <div class="wrapper" id="wrapper">
         <!-- Header -->
-        <!--<?php 
 
-        if(isset($_GET['logout'])){
-            unset($_SESSION['user']);
-            echo '<script type="text/javascript">
-                location.replace("index.php");
-            </script>';
-        }
-    
-        ?>-->
         <header id="wn__header" class="header__area header__absolute sticky__header">
             <div class="container-fluid">
                 <div class="row">
@@ -204,28 +195,6 @@
             </div>
         </div>
 
-        <!--<?php
-            require_once 'db.php';
-            $conn = new mysqli($hn,$un,$pw,$db); 
-            if ($conn ->connect_error) die ($conn->connect_error);
-    
-            $msg = '';
-            if(isset($_POST['submit'])){
-                $fname = $_POST['fname'];
-                $lname = $_POST['lname'];
-                $email = $_POST['email'];
-                $subject = $_POST['subject'];
-                $msg = $_POST['message'];
-
-                $q = "INSERT INTO contactus (fname,lname,email,subject,msg) VALUES ('$fname','$lname','$email','$subject','$msg')";
-                $rs = $conn->query($q); 
-                if (!$rs) die ($conn->error);
-                $msg = "Thank you for contacting us....";
-            }
-        
-                                                    
-        
-        ?>-->
 
         <section class="wn_contact_area bg--white pt--80 pb--80">
         	<div class="container">
@@ -235,19 +204,19 @@
         				<div class="contact-form-wrap">
         					<h2 class="contact__title">Get in touch</h2>
         					<p>Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod mazim placerat facer possim assum. </p>
-                            <form  action="contactus.php" method="POST">
+                            <form  th:action="@{/contactus}" method="POST" th:object="${contactUs}">
                                 <div class="single-contact-form space-between">
-                                    <input type="text" name="fname" placeholder="First Name*">
-                                    <input type="text" name="lname" placeholder="Last Name*">
+                                    <input type="text" name="fName" th:field="*{fName}" placeholder="First Name*">
+                                    <input type="text" name="lName" th:field="*{lName}" placeholder="Last Name*">
                                 </div>
                                 <div class="single-contact-form space-between">
-                                    <input type="email" name="email" placeholder="Email*">
+                                    <input type="email" name="email" th:field="*{email}" placeholder="Email*">
                                 </div>
                                 <div class="single-contact-form">
-                                    <input type="text" name="subject" placeholder="Subject*">
+                                    <input type="text" name="subject" th:field="*{subject}" placeholder="Subject*">
                                 </div>
                                 <div class="single-contact-form message">
-                                    <textarea name="message" placeholder="Type your message here.."></textarea>
+                                    <textarea name="msg" th:field="*{msg}" placeholder="Type your message here.."></textarea>
                                 </div>
                                 <div class="contact-btn">
                                     <button type="submit" name='submit'>Send Email</button>

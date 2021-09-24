@@ -186,8 +186,16 @@ public class HomeController {
 	}
 	
 	@GetMapping("/contactus")
-	public String getContactUs(){
+	public String getContactUs(Model model){
+		model.addAttribute("contactUs", new ContactUs());
 		return "contactus";
+	}
+	
+	@PostMapping("/contactus")
+	public String postContactUs(Model model, @ModelAttribute ContactUs contactUs) {
+		System.out.println("---------->ContactUs: " + contactUs);
+		contactUsRepo.save(contactUs);
+		return "redirect:/index";
 	}
 	
 	@GetMapping("/vetfinder")

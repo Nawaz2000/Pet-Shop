@@ -91,6 +91,12 @@ public class ContactUs {
 	public void setMsg(String msg) {
 		this.msg = msg;
 	}
+
+	@Override
+	public String toString() {
+		return "ContactUs [id=" + id + ", fName=" + fName + ", lName=" + lName + ", email=" + email + ", subject="
+				+ subject + ", msg=" + msg + "]";
+	}
 	
 	
 	
