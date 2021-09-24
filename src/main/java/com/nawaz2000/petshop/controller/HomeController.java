@@ -26,6 +26,7 @@ import com.nawaz2000.petshop.entity.Orders;
 import com.nawaz2000.petshop.entity.Product;
 import com.nawaz2000.petshop.entity.User;
 import com.nawaz2000.petshop.entity.VetFinder;
+import com.nawaz2000.petshop.service.UserCartOrders;
 import com.nawaz2000.petshop.service.UserCartProducts;
 import com.nawaz2000.petshop.service.UserOrder;
 
@@ -171,6 +172,7 @@ public class HomeController {
 		model.addAttribute("userCartProducts", userCartProducts);
 		model.addAttribute("totalPrice", totalPrice);
 		model.addAttribute("orders", new Orders());
+		model.addAttribute("userCartOrders", new UserCartOrders());
 		System.out.println("------------>Total price: " + totalPrice);
 		
 		return "checkout";

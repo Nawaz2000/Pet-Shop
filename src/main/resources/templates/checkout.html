@@ -172,29 +172,33 @@
         <section class="wn__checkout__area section-padding--lg bg__white">
         	<div class="container">
         		<div class="row">
+        		
         			<div class="col-lg-6 col-12">
         				<div class="customer_details">
         					<h3>Billing details</h3>
         					
-							<form >
+        					<form th:action="@{/checkout}" th:object="${userCartOrders}">
+								<input type="hidden" name='profileId' th:field="*{profileId}" th:value="${session.user.id}">
+							
+							
 								<div class="customar__field">
 									<div class="margin_between">
 										<div class="input_box space_between">
 											<label>First name <span>*</span></label>
-											<input type="text" required name='fName'  th:value="${session.user.fName}">
+											<input type="text" required name='fName' th:field="*{fName}"  th:value="${session.user.fName}">
 										</div>
 										<div class="input_box space_between">
 											<label>last name <span>*</span></label>
-											<input type="text" required name='lName' th:value="${session.user.lName}">
+											<input type="text" required name='lName' th:field="*{lName}" th:value="${session.user.lName}">
 										</div>
 									</div>
 									<div class="input_box">
 										<label>Phone number <span>*</span></label>
-										<input type="text" required name='phone'  th:value="${session.user.phone}">
+										<input type="text" required name='phone' th:field="*{phone}" th:value="${session.user.phone}">
 									</div>
 									<div class="input_box">
 										<label>Country<span>*</span></label>
-										<select class="select__option" name='country'  required>
+										<select class="select__option" name='country' th:field="*{country}" required>
 											<option value=''>Select a country…</option>
 											<option value="india">India</option>
 											<option value='usa'>USA</option>
@@ -204,15 +208,15 @@
 									</div>
 									<div class="input_box">
 										<label>District <span>*</span></label>
-										<input type="text" required placeholder="	" name='district' >
+										<input type="text" required placeholder="	" name='district' th:field="*{district}">
 									</div>
 									<div class="input_box">
 										<label>Postcode / ZIP <span>*</span></label>
-										<input type="text"  required name='postCode'>
+										<input type="text"  required name='postCode' th:field="*{postCode}">
 									</div>
 									<div class="input_box">
 										<label>Address <span>*</span></label>
-										<input type="text" required name='address'  placeholder="Street address">
+										<input type="text" required name='address' th:field="*{address}" placeholder="Street address">
 									</div>
 									<div class="input_box">
 										<input type="text" name='address2' placeholder="Apartment, suite, unit etc. (optional)">
@@ -241,16 +245,24 @@
         						<li>Total</li>
         					</ul>
         					<div th:each="ucp: ${userCartProducts}">
-        					<ul class="order_product">			
-								<!-- <li th:each="ucp: ${userCartProducts}" th:text="${ucp.name + '$ ' + ucp.price * ucp.quantity}">En las Orillas del Sar</li> -->
-								<li><h6 th:text="${ucp.name}"></h6><span th:text="${'$ ' + ucp.price * ucp.quantity}"></span></li> 							
-        					</ul>
+        					
+        						<input type="hidden" name='price'  th:value="${ucp.price}">
+								<input type="hidden" name='qty'  th:value="${ucp.quantity}">
+								
+								<div th:each="pId : ${userCartOrders.productId}">
+									<input type="hidden" name='productId' th:field="*{}" th:value="${ucp.productId}">
+								</div>
+								
+        						<ul class="order_product">			
+									<!-- <li th:each="ucp: ${userCartProducts}" th:text="${ucp.name + '$ ' + ucp.price * ucp.quantity}">En las Orillas del Sar</li> -->
+									<li><h6 th:text="${ucp.name}"></h6><span th:text="${'$ ' + ucp.price * ucp.quantity}"></span></li> 							
+        						</ul>
+        						</div>
+        						<ul class="total__amount"><h3></h3>
+        							<li>Order Total<span> <h6 th:text="${totalPrice}"></h6></span></li>
+        						</ul>
         					</div>
-        					<ul class="total__amount"><h3></h3>
-        						<li>Order Total<span> <h6 th:text="${totalPrice}"></h6></span></li>
-        					</ul>
-        				</div>
-                        <div id="accordion" class="checkout_accordion mt--30" role="tablist">
+                        	<div id="accordion" class="checkout_accordion mt--30" role="tablist">
 						    <div class="payment">
 						        <div class="che__header" role="tab" id="headingOne">
 						          	<a class="checkout__title" data-toggle="collapse" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
@@ -301,6 +313,7 @@
 					    
 
         			</div>
+        		
         		</div>
         	</div>
         </section>
