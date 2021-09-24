@@ -27,6 +27,8 @@ import com.nawaz2000.petshop.service.UserCartProducts;
 public class CartController {
 
 	private int currUserId;
+	private static User pUser;
+	private ArrayList<UserCartProducts> userCartProducts;
 
 	@Autowired
 	@Qualifier("productRepo")
@@ -44,6 +46,60 @@ public class CartController {
 	public String addToCart(@RequestParam(name = "pro") String productId,
 			@RequestParam(name = "userId", required = false) String userId, @RequestParam(name = "qty") String quantity,
 			Model model, HttpServletRequest request) {
+		
+		
+		
+		
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String currUsername = "";
+		
+		if (principal instanceof UserDetails) {
+		  currUsername = ((UserDetails)principal).getUsername();
+		} else {
+		  currUsername = principal.toString();
+		}
+		
+		System.out.println("---------------------------> currUser: " + currUsername);
+		
+		if (!currUsername.equals("anonymousUser")) {
+			
+			User currUser = userRepo.findByUsername(currUsername).get();
+			System.out.println("----------------------------> CurrUser id: " + currUser.getId());
+			
+			model.addAttribute("currUser", currUser);
+			currUserId = currUser.getId();
+			pUser = currUser;
+			
+			userCartProducts = new ArrayList<>();
+			
+			List<Cart> currUserCart = cartRepo.findByUserId(currUser.getId());
+			
+			for (Cart c : currUserCart) {
+				Product currProduct = productRepo.findById(c.getProductId()).get();
+				this.userCartProducts.add(new UserCartProducts(c.getProductId(), c.getUserId(), c.getPrice(), c.getQuantity(), currProduct.getImage(), currProduct.getName()));
+			}
+			
+			float totalPrice = 0;
+			
+			for (UserCartProducts u : this.userCartProducts) {
+				totalPrice += u.getPrice()*u.getQuantity();
+//				System.out.println(u);
+			}
+			
+			model.addAttribute("userCartProducts", this.userCartProducts);
+			model.addAttribute("totalPrice", totalPrice);
+			System.out.println("------------>Total price: " + totalPrice);
+			
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		System.out.println("\n\n\n\n------------------> Adding to cart");
 		System.out.println("--------------------------> ProductId: " + productId + " Quantity: " + quantity
 				+ " UserId: " + userId);
